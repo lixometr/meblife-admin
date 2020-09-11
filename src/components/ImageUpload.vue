@@ -40,7 +40,7 @@ export default {
         );
         this.$emit("input", result.url);
       } catch (err) {
-        console.log(err);
+        this.$error(err)
       }
     },
     inputFile(newFile, oldFile) {

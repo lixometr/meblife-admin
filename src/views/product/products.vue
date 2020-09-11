@@ -73,7 +73,8 @@ export default {
       const { data: products } = await this.$api.get("products");
       this.products = products;
     } catch (err) {
-      console.log(err);
+      this.$error(err);
+
     }
     this.$loading.stop();
   },

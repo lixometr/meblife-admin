@@ -57,7 +57,7 @@ export default {
       const { data: manufacturers } = await this.$api.get("manufacturers");
       this.manufacturers = manufacturers;
     } catch (err) {
-      console.log(err);
+      this.$error(err)
     }
     this.$loading.stop();
   },

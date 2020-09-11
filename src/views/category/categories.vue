@@ -58,7 +58,7 @@ export default {
       const { data: categories } = await this.$api.get("categories");
       this.categories = categories;
     } catch (err) {
-      console.log(err);
+      this.$error(err)
     }
     this.$loading.stop();
   },

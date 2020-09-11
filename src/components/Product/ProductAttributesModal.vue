@@ -7,8 +7,11 @@
     class="product-attributes-modal"
   >
     <CContainer class="position-relative">
-      <CButton color="danger " class="product-attributes-modal-close" @click="close"><span>&times;</span></CButton>
+      <CButton color="danger " class="modal-close" @click="close">
+        <span>&times;</span>
+      </CButton>
       <div class="content">
+        <h3 class="text-center mb-4">Редактировать атрибуты</h3>
         <AttributeSelect class="mb-4" :value="attributeNameIds" @input="changeAttrName" />
         <CRow class="mt-2" v-for="(attribute, idx) in items" :key="idx" alignVertical="center">
           <CCol lg="6">
@@ -109,21 +112,7 @@ export default {
 .product-attributes-modal {
   z-index: 99999;
 }
-.product-attributes-modal-close {
-  position: absolute;
-  font-size: 40px;
-  right: 10px;
-  top: 10px;
-  z-index: 30;
-  width: 40px;
-  height: 40px;
-  line-height: 0;
-  padding: 0;
-  span {
-    display: block;
-    transform: translateY(-3px);
-  }
-}
+
 .content {
   padding-top: 150px;
 }

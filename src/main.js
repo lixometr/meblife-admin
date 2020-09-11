@@ -8,11 +8,15 @@ import VueCookie from 'vue-cookie';
 import vSelect from 'vue-select'
 import VueUploadComponent from 'vue-upload-component';
 import VModal from 'vue-js-modal'
+import Notifications from 'vue-notification'
+ 
+ 
 
 import { iconsSet as icons } from './assets/icons/icons.js'
 import store from './store/store'
 import Api from "@/plugins/axios";
 import Loading from "@/plugins/loading";
+import HandleError from "@/plugins/error";
 import VueMoment from "vue-moment";
 import "@/plugins/editor";
 
@@ -21,9 +25,9 @@ Vue.config.performance = true
 Vue.use(CoreuiVue)
 Vue.use(VueCookie);
 Vue.use(VModal);
-
+Vue.use(Notifications)
 Vue.use(Vuelidate)
-
+Vue.use(HandleError, Vue.notify)
 Vue.use(Loading, store)
 Vue.use(Api, store)
 

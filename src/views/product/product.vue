@@ -165,7 +165,7 @@ export default {
         this.product = data;
       }
     } catch (err) {
-      console.log(err);
+      this.$error(err)
     }
 
     this.$loading.stop();
@@ -196,7 +196,7 @@ export default {
         );
         console.log(response);
       } catch (err) {
-        console.log(err);
+      this.$error(err)
       }
     },
     async onDelete() {
@@ -207,7 +207,7 @@ export default {
         console.log(data);
         this.$router.push("/products");
       } catch (err) {
-        console.log(err);
+        this.$error(err)
       }
     },
   },

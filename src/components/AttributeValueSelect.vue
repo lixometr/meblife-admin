@@ -1,18 +1,30 @@
 <template>
-  <div>
-    <SearchSelect :label="label" :value="value" @input="$emit('input', $event)" :multiple="true" :findItem="findItem" :searchItem="searchItem">
-
+  <div class="attribute-value-select">
+    <SearchSelect
+      :label="label"
+      :value="value"
+      @input="$emit('input', $event)"
+      :multiple="true"
+      :findItem="findItem"
+      :searchItem="searchItem"
+      class="select"
+    >
+      <template #list-footer>
+        <CButton class="w-100 mt-2" variant="outline" color="primary" @click="addValue">Добавить</CButton>
+      </template>
     </SearchSelect>
   </div>
 </template>
 
 <script>
+import AttrValueModal from "@/components/AttrValueModal";
+
 import SearchSelect from "@/components/SearchSelect";
 export default {
   props: {
     value: Array,
     label: String,
-    attributeId: [String, Number]
+    attributeId: [String, Number],
   },
   components: {
     SearchSelect,
@@ -23,12 +35,31 @@ export default {
       return item;
     },
     async searchItem(text) {
-        const {data: items} = await this.$api.get('attributeByIdValues', {id: this.attributeId})
-        return items
+      const { data: items } = await this.$api.get("attributeByIdValues", {
+        id: this.attributeId,
+      });
+      return items;
+    },
+    addValue() {
+      this.$modal.show(
+        AttrValueModal,
+        { new: true, attributeId: this.attributeId },
+        { height: "100%", width: "100%" }
+      );
     },
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.attribute-value-select {
+  display: flex;
+}
+.select {
+  flex: 1;
+  margin-right: 2px;
+}
+.button {
+  flex-shrink: 0;
+}
 </style>

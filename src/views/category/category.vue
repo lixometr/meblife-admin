@@ -89,7 +89,7 @@ export default {
         this.category = data;
       }
     } catch (err) {
-      console.log(err);
+      this.$error(err)
     }
 
     this.$loading.stop();
@@ -104,7 +104,7 @@ export default {
         );
         console.log(response);
       } catch (err) {
-        console.log(err);
+        this.$error(err)
       }
     },
     async onDelete() {
@@ -114,7 +114,7 @@ export default {
         });
         this.$router.push("/categories");
       } catch (err) {
-        console.log(err);
+        this.$error(err)
       }
     },
   },

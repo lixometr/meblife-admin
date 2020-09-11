@@ -46,7 +46,7 @@ export default {
       const { data: attributes } = await this.$api.get("attributes");
       this.attributes = attributes;
     } catch (err) {
-      console.log(err);
+      this.$error(err)
     }
     this.$loading.stop();
   },

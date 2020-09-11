@@ -1,8 +1,6 @@
 <template>
   <CRow alignVertical="center">
-    <CCol class="col-form-label" lg="2" v-if="label">
-      {{label}}
-    </CCol>
+    <CCol class="col-form-label" lg="2" v-if="label">{{label}}</CCol>
     <CCol :lg="label ? 10 : 12">
       <v-select
         :multiple="multiple"
@@ -24,6 +22,9 @@
             <div class="selected d-center">{{ option.name }}</div>
           </slot>
         </template>
+        <template #list-footer>
+          <slot name="list-footer"></slot>
+        </template>
       </v-select>
     </CCol>
   </CRow>
@@ -43,8 +44,8 @@ export default {
     label: String,
     keyField: {
       type: String,
-      default: '_id'
-    }
+      default: "_id",
+    },
   },
   data() {
     return {
@@ -74,14 +75,17 @@ export default {
     },
     async loadItems() {
       if (!this.value) return;
-
-      if (this.multiple) {
-        const resolvers = this.value.map(this.findItem);
-        const items = await Promise.all(resolvers);
-        this.selectValues = items;
-      } else {
-        const item = await this.findItem(this.value);
-        this.selectValues = item;
+      try {
+        if (this.multiple) {
+          const resolvers = this.value.map(this.findItem);
+          const items = await Promise.all(resolvers);
+          this.selectValues = items;
+        } else {
+          const item = await this.findItem(this.value);
+          this.selectValues = item;
+        }
+      } catch (err) {
+        this.$error(err);
       }
     },
   },

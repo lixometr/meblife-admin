@@ -68,7 +68,7 @@ export default {
         this.manufacturer = data;
       }
     } catch (err) {
-      console.log(err);
+      this.$error(err)
     }
 
     this.$loading.stop();
@@ -83,7 +83,7 @@ export default {
         );
         console.log(response);
       } catch (err) {
-        console.log(err);
+        this.$error(err)
       }
     },
     async onDelete() {
@@ -93,7 +93,7 @@ export default {
         });
         this.$router.push("/manufacturers");
       } catch (err) {
-        console.log(err);
+        this.$error(err)
       }
     },
   },
