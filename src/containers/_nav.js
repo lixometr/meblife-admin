@@ -34,7 +34,7 @@ export default [
       // },
       {
         _name: "CSidebarNavDropdown",
-        name: "Товары",
+        name: "Каталог",
 
         items: [
           {

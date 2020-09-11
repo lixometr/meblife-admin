@@ -25,7 +25,9 @@ Vue.config.performance = true
 Vue.use(CoreuiVue)
 Vue.use(VueCookie);
 Vue.use(VModal);
-Vue.use(Notifications)
+Vue.use(Notifications, {
+  group: "main"
+})
 Vue.use(Vuelidate)
 Vue.use(HandleError, Vue.notify)
 Vue.use(Loading, store)

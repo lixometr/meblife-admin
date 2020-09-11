@@ -165,7 +165,7 @@ export default {
         this.product = data;
       }
     } catch (err) {
-      this.$error(err)
+      this.$error(err);
     }
 
     this.$loading.stop();
@@ -194,9 +194,14 @@ export default {
           { id: this.product._id },
           this.product
         );
+        this.$notify({
+          group: "main",
+          title: "Сохранено!",
+          type: "success",
+        });
         console.log(response);
       } catch (err) {
-      this.$error(err)
+        this.$error(err);
       }
     },
     async onDelete() {
@@ -204,10 +209,14 @@ export default {
         const { data } = await this.$api.delete("productById", {
           id: this.product._id,
         });
-        console.log(data);
+        this.$notify({
+          group: "main",
+          title: "Удалено!",
+          type: "success",
+        });
         this.$router.push("/products");
       } catch (err) {
-        this.$error(err)
+        this.$error(err);
       }
     },
   },

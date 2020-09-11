@@ -128,7 +128,7 @@ export default {
         this.attribute = data;
       }
     } catch (err) {
-      this.$error(err)
+      this.$error(err);
     }
 
     this.$loading.stop();
@@ -145,9 +145,14 @@ export default {
         const { data: result } = await this.$api.delete("attributeValueById", {
           id: item._id,
         });
+        this.$notify({
+          group: "main",
+          title: "Удалено!",
+          type: "success",
+        });
         await this.fetchValues();
       } catch (err) {
-        this.$error(err)
+        this.$error(err);
       }
     },
     editValue(item) {
@@ -172,9 +177,13 @@ export default {
           { id: this.attribute._id },
           this.attribute
         );
-        console.log(response);
+        this.$notify({
+          group: "main",
+          title: "Сохранено!",
+          type: "success",
+        });
       } catch (err) {
-        this.$error(err)
+        this.$error(err);
       }
     },
     async onDelete() {
@@ -182,9 +191,14 @@ export default {
         const { data } = await this.$api.delete("attributeById", {
           id: this.attribute._id,
         });
+           this.$notify({
+          group: "main",
+          title: "Удалено!",
+          type: "success",
+        });
         this.$router.push("/attributes");
       } catch (err) {
-        this.$error(err)
+        this.$error(err);
       }
     },
   },

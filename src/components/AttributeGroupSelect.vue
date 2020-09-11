@@ -22,7 +22,7 @@
 
 <script>
 import SearchSelect from "@/components/SearchSelect";
-// import AttributeGroupModal from "@/components/AttributeGroupModal";
+import AttributeGroupModal from "@/components/Modals/AttributeGroupModal";
 export default {
   props: {
     value: [String, Array],
@@ -39,7 +39,7 @@ export default {
     addGroup() {
       this.$modal.show(
         AttributeGroupModal,
-        {},
+        {new: true},
         { width: "100%", height: "100%" }
       );
     },

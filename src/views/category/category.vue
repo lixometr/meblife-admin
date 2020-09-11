@@ -89,7 +89,7 @@ export default {
         this.category = data;
       }
     } catch (err) {
-      this.$error(err)
+      this.$error(err);
     }
 
     this.$loading.stop();
@@ -102,9 +102,13 @@ export default {
           { id: this.category._id },
           this.category
         );
-        console.log(response);
+        this.$notify({
+          group: "main",
+          title: "Сохранено!",
+          type: "success",
+        });
       } catch (err) {
-        this.$error(err)
+        this.$error(err);
       }
     },
     async onDelete() {
@@ -112,9 +116,14 @@ export default {
         const { data } = await this.$api.delete("categoryById", {
           id: this.category._id,
         });
+         this.$notify({
+          group: "main",
+          title: "Удалено!",
+          type: "success",
+        });
         this.$router.push("/categories");
       } catch (err) {
-        this.$error(err)
+        this.$error(err);
       }
     },
   },

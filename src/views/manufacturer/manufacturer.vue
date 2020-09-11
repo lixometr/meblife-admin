@@ -68,7 +68,7 @@ export default {
         this.manufacturer = data;
       }
     } catch (err) {
-      this.$error(err)
+      this.$error(err);
     }
 
     this.$loading.stop();
@@ -81,9 +81,13 @@ export default {
           { id: this.manufacturer._id },
           this.manufacturer
         );
-        console.log(response);
+        this.$notify({
+          group: "main",
+          title: "Сохранено!",
+          type: "success",
+        });
       } catch (err) {
-        this.$error(err)
+        this.$error(err);
       }
     },
     async onDelete() {
@@ -91,9 +95,14 @@ export default {
         const { data } = await this.$api.delete("manufacturerById", {
           id: this.manufacturer._id,
         });
+        this.$notify({
+          group: "main",
+          title: "Удалено!",
+          type: "success",
+        });
         this.$router.push("/manufacturers");
       } catch (err) {
-        this.$error(err)
+        this.$error(err);
       }
     },
   },
