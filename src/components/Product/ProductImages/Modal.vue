@@ -4,7 +4,7 @@
     <CCard>
       <CCardBody class="pt-5">
         <CRow class="mb-3" alignHorizontal="center">
-          <CCol :lg="{size: 6, }">
+          <CCol :lg="{size: 4, }">
             <ImageUpload  v-model="imageModel" />
           </CCol>
         </CRow>

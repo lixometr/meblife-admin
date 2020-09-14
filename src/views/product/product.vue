@@ -3,14 +3,14 @@
     <CCard>
       <CCardHeader>Информация</CCardHeader>
       <CCardBody>
-        <div>
+        <!-- <div>
           Доступен:
           <b>{{product.is_available}}</b>
         </div>
         <div>
           Обновлен:
           <b>{{product.updated_at | moment('DD.MM.YYYY hh:mm')}}</b>
-        </div>
+        </div> -->
         <div>
           Создан:
           <b>{{product.created_at | moment('DD.MM.YYYY hh:mm')}}</b>
@@ -62,12 +62,17 @@
       <CCardBody>
         <NInput :horizontal="horizontal" label="Цена" v-model="product.price" />
         <NInput :horizontal="horizontal" label="Старая цена" v-model="product.old_price" />
-
         <NInput
           :horizontal="horizontal"
           type="number"
           label="Скидка"
           v-model="product.promotion.value"
+        />
+         <CInput
+          :horizontal="horizontal"
+          label="Действует до"
+          type="date"
+          v-model="product.promotion.end_at"
         />
       </CCardBody>
     </CCard>
@@ -180,6 +185,11 @@ export default {
       if (product.delivery_at) {
         product.delivery_at = this.$moment(
           new Date(product.delivery_at)
+        ).format("YYYY-MM-DD");
+      }
+      if (product.promotion && product.promotion.end_at) {
+        product.promotion.end_at = this.$moment(
+          new Date(product.promotion.end_at)
         ).format("YYYY-MM-DD");
       }
       this.product = product;

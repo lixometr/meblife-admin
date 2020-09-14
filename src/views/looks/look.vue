@@ -5,39 +5,24 @@
       <CCardBody>
         <div>
           Создан:
-          <b>{{category.created_at | moment('DD.MM.YYYY hh:mm')}}</b>
+          <b>{{look.created_at | moment('DD.MM.YYYY hh:mm')}}</b>
         </div>
       </CCardBody>
     </CCard>
     <CCard>
-      <CCardHeader>Тексты</CCardHeader>
+      <!-- <CCardHeader>Тексты о товаре</CCardHeader> -->
       <CCardBody>
-        <TInput class="mb-5" label="Название" v-model="category.name" />
-        <TInput class="mb-5" label="Slug" v-model="category.slug" />
-        <TInput class="mb-5" label="Маска продукта" v-model="category.product_mask" />
-      </CCardBody>
-    </CCard>
-    <CCard>
-      <CCardHeader>Родитель</CCardHeader>
-      <CCardBody>
-        <CategorySelect v-model="category.parent" :multiple="false" />
-      </CCardBody>
-    </CCard>
-
-    <CCard>
-      <CCardHeader>Изображения</CCardHeader>
-
-      <CCardBody>
+        <!-- <TInput class="mb-5" label="Название" v-model="look.name" /> -->
         <CRow class="mb-5" alignVertical="center">
           <CCol :class="horizontal.label">Изображение</CCol>
           <CCol :class="horizontal.input">
-            <ImageUpload width="150px" v-model="category.image.url" />
+            <ImageUpload width="150px" v-model="look.image.url" />
           </CCol>
         </CRow>
         <CRow class="mb-5" alignVertical="center">
-          <CCol :class="horizontal.label">Изображение в шапке</CCol>
+          <CCol :class="horizontal.label">Товары</CCol>
           <CCol :class="horizontal.input">
-            <ImageUpload width="150px" v-model="category.bg_image.url" />
+              <ProductSelect v-model="look.products"/>
           </CCol>
         </CRow>
       </CCardBody>
@@ -57,21 +42,21 @@ import TInput from "@/components/TInput";
 import TTextArea from "@/components/TTextArea";
 import NInput from "@/components/NInput";
 import ImageUpload from "@/components/ImageUpload";
-import CategorySelect from "@/components/CategorySelect";
+import ProductSelect from "@/components/ProductSelect"
 export default {
   components: {
     TInput,
     TTextArea,
     NInput,
     ImageUpload,
-    CategorySelect,
+    ProductSelect
   },
   props: {
     isNew: Boolean,
   },
   data() {
     return {
-      category: {},
+      look: {},
       horizontal: { input: "col-lg-10", label: "col-lg-2" },
     };
   },
@@ -79,14 +64,14 @@ export default {
     this.$loading.start();
     try {
       if (!this.isNew) {
-        const { data } = await this.$api.get("categoryByIdAdmin", {
+        const { data } = await this.$api.get("lookById", {
           id: this.$route.params.id,
         });
-        this.category = data;
+        this.look = data;
       } else {
-        const { data } = await this.$api.post("categories");
-        this.$router.push("/category/" + data._id);
-        this.category = data;
+        const { data } = await this.$api.post("looks");
+        this.$router.push("/look/" + data._id);
+        this.look = data;
       }
     } catch (err) {
       this.$error(err);
@@ -98,9 +83,9 @@ export default {
     async save() {
       try {
         const { data: response } = await this.$api.put(
-          "categoryById",
-          { id: this.category._id },
-          this.category
+          "lookById",
+          { id: this.look._id },
+          this.look
         );
         this.$notify({
           group: "main",
@@ -113,15 +98,15 @@ export default {
     },
     async onDelete() {
       try {
-        const { data } = await this.$api.delete("categoryById", {
-          id: this.category._id,
+        const { data } = await this.$api.delete("lookById", {
+          id: this.look._id,
         });
-         this.$notify({
+        this.$notify({
           group: "main",
           title: "Удалено!",
           type: "success",
         });
-        this.$router.push("/categories");
+        this.$router.push("/looks");
       } catch (err) {
         this.$error(err);
       }

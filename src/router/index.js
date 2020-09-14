@@ -71,6 +71,14 @@ const Manufacturers = () => import("@/views/manufacturer/manufacturers")
 const Attribute = () => import("@/views/attribute/attribute")
 const Attributes = () => import("@/views/attribute/attributes")
 
+const Languages = () => import("@/views/language/languages")
+const Currencies = () => import("@/views/currency/currencies")
+
+const Settings = () => import("@/views/settings/settings")
+
+const Looks = () => import("@/views/looks/looks")
+const Look = () => import("@/views/looks/look")
+
 Vue.use(Router)
 const router = new Router({
   mode: 'history', // https://router.vuejs.org/api/#mode
@@ -177,6 +185,40 @@ function configRoutes() {
           path: "attributes",
           component: Attributes,
         },
+        {
+          name: "Languages",
+          path: "languages",
+          component: Languages,
+        },
+        {
+          name: "Currencies",
+          path: "currencies",
+          component: Currencies,
+        },
+        {
+          name: "Settings",
+          path: "settings",
+          component: Settings,
+        },
+        {
+          name: "Looks",
+          path: "looks",
+          component: Looks,
+        },
+        {
+          name: "LookNew",
+          path: "look/new",
+          component: Look,
+          props: {
+            isNew: true
+          }
+        },
+        {
+          name: "Look",
+          path: "look/:id",
+          component: Look,
+        },
+       
 
         {
           path: 'dashboard',

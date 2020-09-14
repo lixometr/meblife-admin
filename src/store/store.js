@@ -39,12 +39,14 @@ const actions = {
     const resolvers = [
       async () => {
         await this.dispatch('language/fetch')
+        await this.dispatch('currency/fetch')
       }
     ].map(async func => await func())
     await Promise.all(resolvers)
   }
 }
 import * as language from "./language"
+import * as currency from "./currency"
 import * as user from "./user"
 
 export default new Vuex.Store({
@@ -54,6 +56,7 @@ export default new Vuex.Store({
   actions,
   modules: {
     language,
-    user
+    user,
+    currency
   }
 })

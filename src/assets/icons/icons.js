@@ -80,7 +80,8 @@ import {
   cilTrash,
   cilCursorMove,
   cibAddthis,
-  cilCloudUpload
+  cilCloudUpload,
+  cilSave
 
 } from '@coreui/icons'
 import { logo } from './logo'
@@ -137,7 +138,8 @@ export const iconsSet = Object.assign(
     cilTrash,
     cilCursorMove,
     cibAddthis,
-    cilCloudUpload
+    cilCloudUpload,
+    cilSave
   },
   {
     cifUs,

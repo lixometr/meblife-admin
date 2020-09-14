@@ -10,7 +10,7 @@
       </CCardBody>
     </CCard>
     <CCard>
-      <CCardHeader>Тексты о товаре</CCardHeader>
+      <CCardHeader></CCardHeader>
       <CCardBody>
         <TInput class="mb-5" label="Название" v-model="manufacturer.name" />
         <TInput class="mb-5" label="Slug" v-model="manufacturer.slug" />

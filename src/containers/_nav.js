@@ -55,6 +55,44 @@ export default [
           },
         ]
       },
+      {
+        _name: "CSidebarNavDropdown",
+        name: "Локализация",
+        items: [
+          {
+            name: "Языки",
+            to: "/languages"
+          },
+          {
+            name: "Валюты",
+            to: "/currencies"
+          }
+        ]
+
+      },
+      {
+        _name: 'CSidebarNavItem',
+        name: 'Образы',
+        to: '/looks',
+      },
+      {
+        _name: 'CSidebarNavItem',
+        name: 'Настройки',
+        to: '/settings',
+        icon: 'cil-settings'
+      },
+      // {
+      //   _name: "CSidebarNavDropdown",
+      //   name: "Настройки",
+      //   items: [
+      //     {
+      //       name: "Общее",
+      //       to: "/settings"
+      //     },
+
+      //   ]
+
+      // }
       // {
       //   _name: 'CSidebarNavTitle',
       //   _children: ['Components']
@@ -221,7 +259,7 @@ export default [
       //   _class: 'm-2'
       // },
 
-      
+
 
     ]
   }
