@@ -17,6 +17,7 @@
 
 <script>
 import SearchSelect from "@/components/SearchSelect";
+import LabelModal from "@/components/Modals/LabelModal"
 export default {
   props: {
     value: [String, Array],
@@ -31,15 +32,15 @@ export default {
   },
   methods: {
     async findItem(id) {
-      const { data: item } = await this.$api.get("attributeById", { id });
+      const { data: item } = await this.$api.get("labelById", { id });
       return item;
     },
     async searchItem(text) {
-      const { data: items } = await this.$api.get("attributesSearch", {text});
+      const { data: items } = await this.$api.get("labelsSearch", {text});
       return items
     },
     add() {
-      this.$router.push('/attributes')
+      this.$modal.show(LabelModal, {new: true}, {width: '100%', height: '100%', adaptive: true})
     }
   },
 };

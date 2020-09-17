@@ -28,7 +28,7 @@
         </template>
         <template #k="{item, index}">
           <td>
-            <NInput v-model="item.k" @input="changeProp($event, index)" />
+            <NInput v-model="item.k" :float="true" @input="changeProp($event, index)" />
           </td>
         </template>
         <template #symbol="{item, index}">

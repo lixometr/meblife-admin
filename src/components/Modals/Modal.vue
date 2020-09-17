@@ -1,19 +1,19 @@
 <template>
-  <div  class="modal-attr-value" :adaptive="true" width="100%" height="100%">
-    <CContainer class="position-relative" >
-      <CButton color="danger " class="modal-close" @click="close">
-        <span>&times;</span>
-      </CButton>
-      <div class="content">
-      <h3 class="text-center">{{title}}</h3>
-
-        <CCard>
-          <CCardBody>
-            <slot name="default"></slot>
-          </CCardBody>
-        </CCard>
+  <div :adaptive="true" width="100%" height="100%">
+    <div class="modal-header py-3">
+      <div class="modal-title">
+        <slot name="title">
+          <h5>{{title}}</h5>
+        </slot>
       </div>
-    </CContainer>
+      <CButtonClose @click="close" />
+    </div>
+    <div class="content p-2">
+      <slot name="default"></slot>
+    </div>
+    <div class="py-3 px-3 border-top">
+      <slot name="footer"></slot>
+    </div>
   </div>
 </template>
 
@@ -26,7 +26,7 @@ export default {
     put: Function,
     get: Function,
     value: Object,
-    title: String
+    title: String,
   },
   data() {
     return {
@@ -73,13 +73,11 @@ export default {
       this.$emit("close");
     },
   },
-  watch: {
-  },
+  watch: {},
 };
 </script>
 
 <style lang="scss" scoped>
 .content {
-  padding-top: 100px;
 }
 </style>

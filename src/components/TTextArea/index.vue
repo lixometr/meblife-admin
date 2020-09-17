@@ -1,7 +1,7 @@
 <template>
   <CRow alignVertical="center">
-    <CCol lg="2">{{label}}</CCol>
-    <CCol lg="10">
+    <CCol :class="horizontal.label">{{label}}</CCol>
+    <CCol :class="horizontal.input">
       <LangEditor
       class="mb-4"
         v-for="(lang, idx) in languages"
@@ -29,6 +29,9 @@ export default {
   },
 
   computed: {
+    horizontal() {
+      return this.$store.getters.horizontal
+    },
     languages() {
       return this.$store.getters["language/languages"];
     },

@@ -20,7 +20,7 @@
     <CCard>
       <CCardHeader>Родитель</CCardHeader>
       <CCardBody>
-        <CategorySelect v-model="category.parent" :multiple="false" />
+        <CategorySelect label="Родитель" v-model="category.parent" :multiple="false" />
       </CCardBody>
     </CCard>
 
@@ -42,13 +42,9 @@
         </CRow>
       </CCardBody>
     </CCard>
-    <CCard>
-      <CCardHeader>Действия</CCardHeader>
-      <CCardBody>
-        <CButton color="success mr-3" @click="save">Сохранить</CButton>
-        <CButton color="danger" @click="onDelete">Удалить</CButton>
-      </CCardBody>
-    </CCard>
+
+    <CButton color="success mb-2 w-100" @click="save">  <CIcon name="cil-save" /> Сохранить</CButton>
+    <CButton color="danger mb-3" @click="onDelete">Удалить</CButton>
   </div>
 </template>
 
@@ -72,8 +68,12 @@ export default {
   data() {
     return {
       category: {},
-      horizontal: { input: "col-lg-10", label: "col-lg-2" },
     };
+  },
+  computed: {
+    horizontal() {
+      return this.$store.getters.horizontal;
+    },
   },
   async created() {
     this.$loading.start();
@@ -116,7 +116,7 @@ export default {
         const { data } = await this.$api.delete("categoryById", {
           id: this.category._id,
         });
-         this.$notify({
+        this.$notify({
           group: "main",
           title: "Удалено!",
           type: "success",

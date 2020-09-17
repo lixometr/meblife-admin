@@ -20,3 +20,13 @@
 .vm--modal {
   top: 0!important;
 }
+.card-header {
+  background: lighten($light, 2);
+  font-weight: bold;
+}
+.bg-black {
+  background: #000;
+}
+.cursor-pointer {
+  cursor: pointer;
+}

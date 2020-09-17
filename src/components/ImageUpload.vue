@@ -1,7 +1,20 @@
 <template>
-  <div :style="{width: width}">
+  <div :style="{width: width}" class="position-relative">
+    
+    <div class="image-upload-info " v-if="showInfo">
+      <Label label="Изображение" required>
+        <label class="cursor-pointer text-info mb-0" :for="inputId" >Загрузить новое</label> /
+        <span class="cursor-pointer text-info" @click="reset">Удалить изображение</span>
+      </Label>
+    </div>
+    <div class="reset-btn bg-danger" @click="reset" v-if="value && !showInfo">
+      <span>&times;</span>
+    </div>
+
     <file-upload
-      class="upload w-100"
+      class="upload w-100 "
+      :class="{'p-4': showInfo}"
+      :input-id="inputId"
       ref="upload"
       v-model="files"
       :custom-action="doUpload"
@@ -9,8 +22,9 @@
       @input-file="inputFile"
       @input-filter="inputFilter"
     >
-      <CImg class="upload-image" :src="value" maxWidth="100%" v-if="value" />
-      <CIcon name="cil-cloud-upload" width="100%" v-else :style="{maxWidth: '300px'}"/>
+     
+      <CImg class="upload-image  d-block"  :class="{'shadow': showInfo}" :src="value" maxWidth="100%" v-if="value" />
+      <CIcon name="cil-cloud-upload" width="100%" v-else :style="{maxWidth: '300px'}" />
     </file-upload>
   </div>
 </template>
@@ -20,14 +34,23 @@ export default {
   props: {
     // url
     value: String,
-    width: String
+    width: String,
+    showInfo: Boolean
   },
   data() {
     return {
       files: [],
     };
   },
+  computed: {
+    inputId() {
+      return 'file-upload-'+this._uid
+    }
+  },
   methods: {
+    reset() {
+      this.$emit('input', undefined)
+    },
     async doUpload(file, component) {
       try {
         const formData = new FormData();
@@ -40,7 +63,7 @@ export default {
         );
         this.$emit("input", result.url);
       } catch (err) {
-        this.$error(err)
+        this.$error(err);
       }
     },
     inputFile(newFile, oldFile) {
@@ -82,5 +105,20 @@ export default {
 .upload-image {
   max-width: 100%;
   cursor: pointer;
+}
+.reset-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+  line-height: 12px;
+  padding: 0;
+  text-align: center;
+  color: #fff;
+  border-radius: 50%;
+  z-index: 2;
 }
 </style>

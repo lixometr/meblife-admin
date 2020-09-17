@@ -57,14 +57,19 @@ export default {
   data() {
     return {
       look: {},
-      horizontal: { input: "col-lg-10", label: "col-lg-2" },
+     
     };
+  },
+  computed: {
+    horizontal() {
+      return this.$store.getters.horizontal
+    },
   },
   async created() {
     this.$loading.start();
     try {
       if (!this.isNew) {
-        const { data } = await this.$api.get("lookById", {
+        const { data } = await this.$api.get("lookByIdAdmin", {
           id: this.$route.params.id,
         });
         this.look = data;

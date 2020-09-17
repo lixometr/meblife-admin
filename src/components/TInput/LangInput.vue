@@ -1,5 +1,5 @@
 <template>
-  <CInput :horizontal="true" :prepend="prefix" v-model="inputValue" />
+  <CInput  :prepend="prefix" v-model="inputValue" />
 </template>
 
 <script>

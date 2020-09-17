@@ -8,6 +8,7 @@
       :findItem="findItem"
       :searchItem="searchItem"
       class="select"
+      :inputClass="inputClass"
     >
       <template #list-footer>
         <CButton class="w-100 mt-2" variant="outline" color="primary" @click="addValue">Добавить</CButton>
@@ -25,6 +26,7 @@ export default {
     value: Array,
     label: String,
     attributeId: [String, Number],
+    inputClass: [String,Array,Object]
   },
   components: {
     SearchSelect,
@@ -43,7 +45,7 @@ export default {
     addValue() {
       this.$modal.show(
         AttrValueModal,
-        { new: true, attributeId: this.attributeId },
+        { new: true, attributeId: this.attributeId, created() {} },
         { height: "100%", width: "100%" }
       );
     },

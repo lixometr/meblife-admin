@@ -10,6 +10,9 @@ const state = {
 const getters = {
   isLoading(state) {
     return state.loading
+  },
+  horizontal() {
+    return  { input: "col-lg-8", label: "col-lg-4 text-right pr-4" }
   }
 }
 const mutations = {
@@ -57,6 +60,6 @@ export default new Vuex.Store({
   modules: {
     language,
     user,
-    currency
+    currency,
   }
 })

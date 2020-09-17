@@ -5,6 +5,9 @@
 <script>
 export default {
   inheritAttrs: false,
+  props: {
+    float: Boolean
+  },
   computed: {
     attrs() {
       return {
@@ -18,7 +21,13 @@ export default {
   },
   methods: {
     onInput(value) {
-      let numValue = parseInt(value);
+      let numValue;
+      if(this.float) {
+        numValue = parseFloat(value);
+
+      } else {
+        numValue = parseInt(value);
+      }
       if (isNaN(numValue)) {
         numValue = 0;
       }

@@ -1,15 +1,12 @@
 <template>
-  <CRow alignVertical="center">
-    <CCol lg="2">{{label}}</CCol>
-    <CCol lg="10">
-      <LangInput
-        v-for="(lang, idx) in languages"
-        :key="idx"
-        :value="langValue(lang._id)"
-        @input="changeLanguage($event)"
-      />
-    </CCol>
-  </CRow>
+  <Label :label="label" :required="required">
+    <LangInput
+      v-for="(lang, idx) in languages"
+      :key="idx"
+      :value="langValue(lang._id)"
+      @input="changeLanguage($event)"
+    />
+  </Label>
 </template>
 
 <script>
@@ -22,12 +19,16 @@ export default {
       [{value: '', langId: ''}]
     */
     value: Array,
+    required: Boolean
   },
   components: {
     LangInput,
   },
 
   computed: {
+    horizontal() {
+      return this.$store.getters.horizontal;
+    },
     languages() {
       return this.$store.getters["language/languages"];
     },

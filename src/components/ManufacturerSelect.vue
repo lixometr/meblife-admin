@@ -1,8 +1,15 @@
 <template>
   <div>
-    <SearchSelect :label="label" :value="value" @input="$emit('input', $event)" :multiple="false" :findItem="findItem" :searchItem="searchItem">
-
-    </SearchSelect>
+    <SearchSelect
+      :required="required"
+      :label="label"
+      :value="value"
+      @input="$emit('input', $event)"
+      :multiple="multiple"
+      :findItem="findItem"
+      :searchItem="searchItem"
+      :inputClass="inputClass"
+    ></SearchSelect>
   </div>
 </template>
 
@@ -10,8 +17,11 @@
 import SearchSelect from "@/components/SearchSelect";
 export default {
   props: {
-    value: String,
-    label: String
+    value: [Array, String],
+    label: String,
+    required: Boolean,
+    inputClass: [String, Array,Object],
+    multiple: Boolean,
   },
   components: {
     SearchSelect,
@@ -22,8 +32,10 @@ export default {
       return item;
     },
     async searchItem(text) {
-        const {data: items} = await this.$api.get('manufacturers')
-        return items
+      const { data: items } = await this.$api.get("manufacturersSearch", {
+        text,
+      });
+      return items;
     },
   },
 };

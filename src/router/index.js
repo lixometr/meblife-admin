@@ -79,6 +79,9 @@ const Settings = () => import("@/views/settings/settings")
 const Looks = () => import("@/views/looks/looks")
 const Look = () => import("@/views/looks/look")
 
+const Inspirations = () => import("@/views/inspiration/inspirations")
+const Inspiration = () => import("@/views/inspiration/inspiration")
+
 Vue.use(Router)
 const router = new Router({
   mode: 'history', // https://router.vuejs.org/api/#mode
@@ -217,6 +220,24 @@ function configRoutes() {
           name: "Look",
           path: "look/:id",
           component: Look,
+        },
+        {
+          name: "Inspirations",
+          path: "inspirations",
+          component: Inspirations,
+        },
+        {
+          name: "InspirationNew",
+          path: "inspiration/new",
+          component: Inspiration,
+          props: {
+            isNew: true
+          }
+        },
+        {
+          name: "Inspiration",
+          path: "inspiration/:id",
+          component: Inspiration,
         },
        
 

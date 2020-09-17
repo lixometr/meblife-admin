@@ -1,8 +1,13 @@
 <template>
   <div>
-    <SearchSelect :label="label" :value="value" @input="$emit('input', $event)" :multiple="multiple" :findItem="findItem" :searchItem="searchItem">
-
-    </SearchSelect>
+    <SearchSelect
+      :label="label"
+      :value="value"
+      @input="$emit('input', $event)"
+      :multiple="multiple"
+      :findItem="findItem"
+      :searchItem="searchItem"
+    ></SearchSelect>
   </div>
 </template>
 
@@ -14,8 +19,8 @@ export default {
     label: String,
     multiple: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   components: {
     SearchSelect,
@@ -26,9 +31,14 @@ export default {
       return item;
     },
     async searchItem(text) {
-        const {data: items} = await this.$api.get('products')
-
-        return items.filter(item => item.name.indexOf(text) > -1)
+      
+      try {
+        
+        const { data: items } = await this.$api.get("productsSearch", { text });
+        return items.filter((item) => item.name.indexOf(text) > -1);
+      } catch (err) {
+        this.$error(err);
+      }
     },
   },
 };

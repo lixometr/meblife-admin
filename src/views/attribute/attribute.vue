@@ -18,23 +18,16 @@
     </CCard>
     <CCard>
       <CCardBody>
-        <CRow alignVertical="center">
-          <CCol :class="horizontal.label">Тип</CCol>
-          <CCol :class="horizontal.input">
-            <v-select
-              label="label"
-              :options="attributeTypes"
-              :reduce="attribute => attribute.value"
-              v-model="attribute.attribute_type"
-            />
-          </CCol>
-        </CRow>
-        <CRow alignVertical="center" class="mt-3">
-          <CCol :class="horizontal.label">Группа</CCol>
-          <CCol :class="horizontal.input">
-            <AttributeGroupSelect v-model="attribute.groupId" />
-          </CCol>
-        </CRow>
+        <Label label="Тип" class="mb-3">
+          <v-select
+            label="label"
+            :options="attributeTypes"
+            :reduce="attribute => attribute.value"
+            v-model="attribute.attribute_type"
+          />
+        </Label>
+
+        <AttributeGroupSelect label="Группа" v-model="attribute.groupId" />
       </CCardBody>
     </CCard>
     <CCard>
@@ -58,13 +51,9 @@
         </CButton>
       </CCardBody>
     </CCard>
-    <CCard>
-      <CCardHeader>Действия</CCardHeader>
-      <CCardBody>
-        <CButton color="success mr-3" @click="save">Сохранить</CButton>
-        <CButton color="danger" @click="onDelete">Удалить</CButton>
-      </CCardBody>
-    </CCard>
+
+    <CButton color="success mb-2 w-100" @click="save"><CIcon name="cil-save" /> Сохранить</CButton>
+    <CButton color="danger" @click="onDelete">Удалить</CButton>
   </div>
 </template>
 
@@ -75,6 +64,7 @@ import NInput from "@/components/NInput";
 import ImageUpload from "@/components/ImageUpload";
 import AttrValueModal from "@/components/AttrValueModal";
 import AttributeGroupSelect from "@/components/AttributeGroupSelect";
+import Label from "@/components/Label";
 export default {
   components: {
     TInput,
@@ -82,6 +72,7 @@ export default {
     NInput,
     ImageUpload,
     AttributeGroupSelect,
+    Label,
   },
   props: {
     isNew: Boolean,
@@ -90,10 +81,12 @@ export default {
     return {
       attribute: {},
       values: [],
-      horizontal: { input: "col-lg-10", label: "col-lg-2" },
     };
   },
   computed: {
+    horizontal() {
+      return this.$store.getters.horizontal;
+    },
     attributeTypes() {
       return [
         { value: "values", label: "Значение" },
@@ -191,7 +184,7 @@ export default {
         const { data } = await this.$api.delete("attributeById", {
           id: this.attribute._id,
         });
-           this.$notify({
+        this.$notify({
           group: "main",
           title: "Удалено!",
           type: "success",

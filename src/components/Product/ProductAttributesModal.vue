@@ -6,34 +6,59 @@
     height="100%"
     class="product-attributes-modal"
   >
-    <CContainer class="position-relative">
-      <CButton color="danger " class="modal-close" @click="close">
-        <span>&times;</span>
-      </CButton>
-      <div class="content">
-        <h3 class="text-center mb-4">Редактировать атрибуты</h3>
-        <AttributeSelect class="mb-4" :value="attributeNameIds" @input="changeAttrName" />
-        <CRow class="mt-2" v-for="(attribute, idx) in items" :key="idx" alignVertical="center">
-          <CCol lg="6">
-            <div>{{getAttrName(attribute.name)}}</div>
-          </CCol>
-          <CCol lg="6">
-            <AttributeValueSelect
-              :attributeId="attribute.name"
-              :value="attribute.value"
-              @input="changeAttrValue(idx, $event)"
-            />
-          </CCol>
-        </CRow>
-      </div>
-    </CContainer>
+    <AppModal title="Редактировать атрибуты" @close="close">
+      <template>
+        <div class="p-4">
+          <AttributeSelect class="mb-2" :value="attributeNameIds" @input="changeAttrName" />
+          <div class="py-2 text-center">
+            <b>Атрибутов {{items.length}}</b>
+          </div>
+          <CRow class="mb-2 border-top pt-2" alignVertical="center">
+            <CCol :class="horizontal.label">
+              <div class="text-left">
+                <b>Атрибут</b>
+              </div>
+            </CCol>
+            <CCol :class="horizontal.input">
+              <div>
+                <b>Значение</b>
+              </div>
+            </CCol>
+          </CRow>
+          <CRow
+            class="border-top py-2 bg-light"
+            v-for="(attribute, idx) in items"
+            :key="idx"
+            alignVertical="center"
+          >
+            <CCol :class="horizontal.label">
+              <div class="text-left">{{getAttrName(attribute.name)}}</div>
+            </CCol>
+            <CCol :class="horizontal.input">
+              <AttributeValueSelect
+                inputClass="bg-white"
+                :attributeId="attribute.name"
+                :value="attribute.value"
+                @input="changeAttrValue(idx, $event)"
+              />
+            </CCol>
+          </CRow>
+        </div>
+      </template>
+      <template #footer>
+        <div class="d-flex justify-content-end">
+          <CButton class="mr-2" color="secondary" @click="close">Отменить</CButton>
+          <CButton color="success" @click="save">Сохранить</CButton>
+        </div>
+      </template>
+    </AppModal>
   </modal>
 </template>
 
 <script>
 import AttributeValueSelect from "@/components/AttributeValueSelect";
 import AttributeSelect from "@/components/AttributeSelect";
-
+import AppModal from "@/components/Modals/Modal";
 export default {
   props: {
     // [{name: 'attr-name-id', value: ['attr-value-id']]
@@ -47,8 +72,12 @@ export default {
   components: {
     AttributeValueSelect,
     AttributeSelect,
+    AppModal,
   },
   computed: {
+    horizontal() {
+      return this.$store.getters.horizontal;
+    },
     items() {
       return this.value;
     },
@@ -60,6 +89,9 @@ export default {
     await this.fetchNames();
   },
   methods: {
+    save() {
+      this.close();
+    },
     getAttrName(id) {
       const attrName =
         this.attributeNames.find((attr) => attr._id === id) || {};
@@ -93,10 +125,10 @@ export default {
           newAttrs.push(this.items[idx]);
         }
       });
-
       this.$emit("input", newAttrs);
     },
     close() {
+      this.$emit("close");
       this.$modal.hide("modal-product-attributes");
     },
   },

@@ -77,6 +77,11 @@ export default [
       },
       {
         _name: 'CSidebarNavItem',
+        name: 'Вдохновения',
+        to: '/inspirations',
+      },
+      {
+        _name: 'CSidebarNavItem',
         name: 'Настройки',
         to: '/settings',
         icon: 'cil-settings'

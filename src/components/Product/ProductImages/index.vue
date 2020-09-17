@@ -13,18 +13,18 @@
         @edit="itemEdit(item, idx)"
       />
     </draggable>
-    <CButton color="primary" @click="add">
+    <CButton color="warning" @click="add" class="float-right mt-4">
       Добавить изображение
       <CIcon class="ml-1" name="cib-addthis" />
     </CButton>
-    <ProductImageModal
-      v-model="showImageModal"
+    <!-- <ProductImageModal
       :item="modalItem"
       :isFeature="isFeature(modalItem)"
       :isDefault="isDefault(modalItem)"
       :isSize="isSize(modalItem)"
       @change="modalItemChange"
-    />
+    
+    />-->
   </div>
 </template>
 
@@ -66,7 +66,6 @@ export default {
   },
   data() {
     return {
-      showImageModal: false,
       modalItemIdx: undefined,
     };
   },
@@ -90,6 +89,8 @@ export default {
     },
   },
   methods: {
+    onApply() {},
+    onCancel() {},
     isDefault(image) {
       if (!image.url || !this.defaultImage.url) return false;
 
@@ -121,29 +122,27 @@ export default {
       console.log("a", value);
       if (value.isDefault === true) {
         this.$emit("defaultImage", value.item);
-      } else if(value.isDefault === false){
+      } else if (value.isDefault === false) {
         this.$emit("defaultImage", {});
       }
       if (value.isFeature === true) {
         const newValue = [...this.featureImages, value.item];
         this.$emit("featureImages", newValue);
-      } else if(value.isFeature === false) {
-         this.$emit(
+      } else if (value.isFeature === false) {
+        this.$emit(
           "featureImages",
           this.featureImages.filter((img) => img.url !== value.item.url)
         );
       }
       if (value.isSize === true) {
         this.$emit("sizeImage", value.item);
-      } else if(value.isSize === false){
+      } else if (value.isSize === false) {
         this.$emit("sizeImage", {});
       }
-      const newValue = [...this.items]
-      
-      newValue[this.modalItemIdx] = value.item
-      this.$emit(
-        "productImages",
-        newValue)
+      const newValue = [...this.items];
+
+      newValue[this.modalItemIdx] = value.item;
+      this.$emit("productImages", newValue);
     },
     itemDelete(item) {
       if (this.isDefault(item)) {
@@ -164,9 +163,21 @@ export default {
         this.productImages.filter((img) => img.url !== item.url)
       );
     },
+    openModal() {
+      this.$modal.show(ProductImageModal, {
+        item: this.modalItem,
+        isFeature: this.isFeature(this.modalItem),
+        isDefault: this.isDefault(this.modalItem),
+        isSize: this.isSize(this.modalItem),
+        change: this.modalItemChange,
+      }, {
+        width: '100%',
+        height: '100%'
+      });
+    },
     itemEdit(item, idx) {
       this.modalItemIdx = idx;
-      this.showImageModal = true;
+      this.openModal()
     },
     onDragChange(value) {
       this.$emit("productImages", value);

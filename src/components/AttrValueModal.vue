@@ -1,32 +1,40 @@
 <template>
-  <div name="modal-attr-value" class="modal-attr-value" :adaptive="true" width="100%" height="100%">
-    <CContainer class="position-relative" v-if="!isLoading">
-      <h3 class="text-center">Создать значение атрибута</h3>
-      <CButton color="danger " class="modal-close" @click="close">
-        <span>&times;</span>
-      </CButton>
-      <div class="content">
-        <CCard>
-          <CCardBody>
-            <TInput label="Название" class="mb-4" v-model="attributeValue.name" />
-            <TInput label="Slug" v-model="attributeValue.slug" />
-            <CRow>
-              <CCol lg="2">Атрибут</CCol>
-              <CCol lg="8">
-                <AttributeSelect :multiple="false" v-model="attributeValue.attributeId" />
-              </CCol>
-            </CRow>
-            <CButton color="primary" class="mt-3" @click="save">Сохранить</CButton>
-          </CCardBody>
-        </CCard>
+  <Modal
+    title="Редактировать значение атрибута"
+    v-if="!isLoading"
+    class="modal-attr-value"
+    :adaptive="true"
+    width="100%"
+    height="100%"
+    @close="$emit('close')"
+  >
+    <template>
+      <CCard>
+        <CCardHeader>Редактировать значение атрибута</CCardHeader>
+        <CCardBody>
+          <TInput label="Название" class="mb-4" v-model="attributeValue.name" />
+          <TInput label="Slug" v-model="attributeValue.slug" />
+
+          <AttributeSelect label="Атрибут" :multiple="false" v-model="attributeValue.attributeId" />
+
+          <CButton color="primary" class="mt-3" @click="save">Сохранить</CButton>
+        </CCardBody>
+      </CCard>
+    </template>
+    <template #footer>
+      <div class="d-flex justify-content-end">
+        <CButton class="mr-2" color="secondary" @click="$emit('close')">Отменить</CButton>
+        <CButton color="success" @click="save">Сохранить</CButton>
       </div>
-    </CContainer>
-  </div>
+    </template>
+  </Modal>
 </template>
 
 <script>
 import AttributeSelect from "@/components/AttributeSelect";
 import TInput from "@/components/TInput";
+import Modal from "@/components/Modals/Modal";
+
 export default {
   props: {
     //   attrId
@@ -45,12 +53,15 @@ export default {
         slug: [],
         attributeId: this.attributeId,
       },
+      thisId: this.id,
+      isNew: this.new,
       isLoading: false,
     };
   },
   components: {
     TInput,
     AttributeSelect,
+    Modal,
   },
   computed: {},
   async created() {
@@ -60,7 +71,7 @@ export default {
     async fetch() {
       this.isLoading = true;
       try {
-        if (this.new) {
+        if (this.isNew) {
           //   const { data: attrValue } = await this.$api.post("attributeValues", null, {
           //       attributeId: this.attributeId
           //   });
@@ -75,24 +86,37 @@ export default {
           this.attributeValue = attrValue;
         }
       } catch (err) {
-        this.$error(err)
+        this.$error(err);
       }
       this.isLoading = false;
     },
     async save() {
-      if(this.isSaving) return
+      if (this.isSaving) return;
       this.isSaving = true;
       try {
-        if (this.new) {
-          const {data: result } = await this.$api.post("attributeValues", null, this.attributeValue);
-          console.log(result)
+        if (this.isNew) {
+          const { data: result } = await this.$api.post(
+            "attributeValues",
+            null,
+            this.attributeValue
+          );
+          this.isNew = false;
+          this.thisId = result._id;
         } else {
-          const {data: result} = await this.$api.put("attributeValueById", {id: this.id}, this.attributeValue);
-          console.log(result)
-
+          const { data: result } = await this.$api.put(
+            "attributeValueById",
+            { id: this.thisId },
+            this.attributeValue
+          );
+          console.log(result);
         }
+        this.$notify({
+          group: "main",
+          type: "success",
+          title: "Сохранено!",
+        });
       } catch (err) {
-        this.$error(err)
+        this.$error(err);
       }
       this.isSaving = false;
     },
@@ -102,7 +126,11 @@ export default {
   },
   watch: {
     async id() {
+      this.thisId = this.id;
       await this.fetch();
+    },
+    new() {
+      this.isNew = this.new;
     },
     attributeId() {
       this.attributeValue.attributeId = this.attributeId;
@@ -115,6 +143,5 @@ export default {
 .modal-attr-value {
   width: 100%;
   height: 100%;
-  padding-top: 50px;
 }
 </style>

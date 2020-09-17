@@ -1,16 +1,16 @@
 <template>
-  <div class="py-2 border mb-3 px-4">
+  <div class="py-2 border px-4">
     <CRow alignVertical="center">
-      <b class="font-bold mr-2">
-        <CBadge color="primary" class="mr-1">{{idx}}</CBadge>Изображение продукта
+      <b class="font-bold mr-2 ">
+        <CBadge class="bg-black text-white mr-1">{{idx}}</CBadge><span class="font-xs">Изображение продукта</span>
       </b>
       <div class="image-wrapper p-2 rounded">
         <CImg :src="url" />
       </div>
       <div>
-        <CBadge color="primary" class="ml-2" v-if="isDefault">По умолчанию</CBadge>
-        <CBadge color="primary" class="ml-2" v-if="isFeature">Feature</CBadge>
-        <CBadge color="primary" class="ml-2" v-if="isSize">Размер</CBadge>
+        <div  class="ml-2 font-md" v-if="isDefault">По умолчанию</div>
+        <div  class="ml-2 font-md" v-if="isFeature">Feature</div>
+        <div  class="ml-2 font-md" v-if="isSize">Размер</div>
       </div>
       <div class="actions ml-auto">
         <CButton class="move mr-1">

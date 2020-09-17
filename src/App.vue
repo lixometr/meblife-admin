@@ -14,4 +14,7 @@ export default {
 <style lang="scss">
 // Import Main styles for this application
 @import "assets/scss/style";
+.vue-notification-group {
+  z-index: 99999!important;
+}
 </style>

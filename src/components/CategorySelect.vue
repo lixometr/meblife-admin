@@ -6,6 +6,7 @@
     :multiple="multiple"
     :findItem="findItem"
     :searchItem="searchItem"
+    :required="required"
   >
     <template v-slot:selected-option="option">
       <div class="selected d-center">
@@ -26,7 +27,8 @@ export default {
       type: Boolean,
       default: true,
     },
-    label: String
+    label: String,
+    required: Boolean
   },
   components: {
     SearchSelect,
@@ -45,8 +47,8 @@ export default {
       return { ...category, parents };
     },
     async searchItem(text) {
-      const { data: categories } = await this.$api.get("categories");
-      return categories.filter((category) => category.name.indexOf(text) >= 0);
+      const { data: categories } = await this.$api.get("categoriesSearch", {text});
+      return categories
     },
   },
 };

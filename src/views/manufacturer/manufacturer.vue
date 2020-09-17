@@ -23,13 +23,10 @@
         <TTextArea label="История" v-model="manufacturer.history" />
       </CCardBody>
     </CCard>
-    <CCard>
-      <CCardHeader>Действия</CCardHeader>
-      <CCardBody>
-        <CButton color="success mr-3" @click="save">Сохранить</CButton>
-        <CButton color="danger" @click="onDelete">Удалить</CButton>
-      </CCardBody>
-    </CCard>
+    <CButton color="success mb-2 w-100" @click="save">
+      <CIcon name="cil-save" /> Сохранить
+    </CButton>
+    <CButton color="danger" class="mb-2" @click="onDelete">Удалить</CButton>
   </div>
 </template>
 
@@ -51,8 +48,12 @@ export default {
   data() {
     return {
       manufacturer: {},
-      horizontal: { input: "col-lg-10", label: "col-lg-2" },
     };
+  },
+  computed: {
+    horizontal() {
+      return this.$store.getters.horizontal;
+    },
   },
   async created() {
     this.$loading.start();

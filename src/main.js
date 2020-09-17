@@ -9,7 +9,7 @@ import vSelect from 'vue-select'
 import VueUploadComponent from 'vue-upload-component';
 import VModal from 'vue-js-modal'
 import Notifications from 'vue-notification'
- 
+import ToggleButton from 'vue-js-toggle-button'
  
 
 import { iconsSet as icons } from './assets/icons/icons.js'
@@ -25,6 +25,8 @@ Vue.config.performance = true
 Vue.use(CoreuiVue)
 Vue.use(VueCookie);
 Vue.use(VModal);
+Vue.use(ToggleButton)
+
 Vue.use(Notifications, {
   group: "main"
 })
@@ -47,6 +49,10 @@ Vue.use(VueMoment, {
 
 Vue.prototype.$log = console.log.bind(console)
 
+import Label from "@/components/Label";
+import TInput from "@/components/TInput";
+Vue.component('Label', Label)
+Vue.component('TInput', TInput)
 const init = async () => {
   await store.dispatch('init')
   new Vue({
@@ -54,10 +60,8 @@ const init = async () => {
     router,
     store,
     icons,
-    template: '<App/>',
-    components: {
-      App
-    }
+
+    render: h => h(App)
   })
 }
 
