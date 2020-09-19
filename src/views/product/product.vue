@@ -30,9 +30,22 @@
         <div class="mb-3">
           <CategorySelect label="Категории" v-model="product.category" />
         </div>
-        <ManufacturerSelect required class="mb-3" label="Производитель" v-model="product.manufacturer" />
-        <CInput :horizontal="horizontal" label="CMS Module Group Top" />
-        <CInput :horizontal="horizontal" label="CMS Module Group Bottom" />
+        <ManufacturerSelect
+          required
+          class="mb-3"
+          label="Производитель"
+          v-model="product.manufacturer"
+        />
+        <ModuleGroupSelect
+          class="mb-3"
+          label="CMS Module Group Top"
+          v-model="product.module_groups_top"
+        />
+        <ModuleGroupSelect
+          class="mb-3"
+          label="CMS Module Group Bottom"
+          v-model="product.module_groups_bottom"
+        />
         <NInput :horizontal="horizontal" label="Sort order" />
       </CCardBody>
     </CCard>
@@ -170,7 +183,7 @@
     <ProductAttributesModal v-model="product.attributes" />
 
     <CButton color="success w-100" @click="save">
-      <CIcon name="cil-save" /> Сохранить
+      <CIcon name="cil-save" />Сохранить
     </CButton>
     <CButton color="danger mt-2 mb-4" @click="onDelete">Удалить</CButton>
   </div>
@@ -186,6 +199,7 @@ import LabelSelect from "@/components/LabelSelect";
 import ImageUpload from "@/components/ImageUpload";
 import ProductImages from "@/components/Product/ProductImages";
 import ProductAttributesModal from "@/components/Product/ProductAttributesModal";
+import ModuleGroupSelect from "@/components/ModuleGroupSelect";
 import Label from "@/components/Label";
 
 export default {
@@ -201,6 +215,7 @@ export default {
     ProductAttributesModal,
     LabelSelect,
     Label,
+    ModuleGroupSelect,
   },
   props: {
     isNew: Boolean,

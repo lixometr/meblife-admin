@@ -7,7 +7,17 @@
       :multiple="multiple"
       :findItem="findItem"
       :searchItem="searchItem"
-    ></SearchSelect>
+    >
+        <template v-slot:option="option">
+        <slot name="option" v-bind="option">
+          <div class="d-center">{{ option.full_name }}</div>
+        </slot>
+      </template>
+      <template v-slot:selected-option="option">
+        <slot name="selected-option" v-bind="option">
+          <div class="selected d-center">{{ option.full_name }}</div>
+        </slot>
+      </template></SearchSelect>
   </div>
 </template>
 
@@ -31,11 +41,9 @@ export default {
       return item;
     },
     async searchItem(text) {
-      
-      try {
-        
+      try { 
         const { data: items } = await this.$api.get("productsSearch", { text });
-        return items.filter((item) => item.name.indexOf(text) > -1);
+        return items
       } catch (err) {
         this.$error(err);
       }

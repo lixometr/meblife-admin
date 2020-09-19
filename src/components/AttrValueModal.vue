@@ -17,7 +17,6 @@
 
           <AttributeSelect label="Атрибут" :multiple="false" v-model="attributeValue.attributeId" />
 
-          <CButton color="primary" class="mt-3" @click="save">Сохранить</CButton>
         </CCardBody>
       </CCard>
     </template>

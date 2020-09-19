@@ -1,5 +1,5 @@
 <template>
-  <div :adaptive="true" width="100%" height="100%">
+  <div width="100%" height="100%" class="modal-wrapper">
     <div class="modal-header py-3">
       <div class="modal-title">
         <slot name="title">
@@ -8,7 +8,7 @@
       </div>
       <CButtonClose @click="close" />
     </div>
-    <div class="content p-2">
+    <div class="content p-2 ">
       <slot name="default"></slot>
     </div>
     <div class="py-3 px-3 border-top">
@@ -79,5 +79,10 @@ export default {
 
 <style lang="scss" scoped>
 .content {
+}
+.modal-wrapper {
+  overflow: auto;
+  max-height: 100%;
+  height: 100%;
 }
 </style>

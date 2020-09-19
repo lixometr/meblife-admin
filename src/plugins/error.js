@@ -1,6 +1,10 @@
 function errorHandler(notify) {
-    return (err) => {
+    return function (err) {
         console.log(err)
+        console.log(this)
+        if(err.status === 401) {
+
+        }
         notify({
             group: "main",
             type: 'error',

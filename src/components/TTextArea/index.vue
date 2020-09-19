@@ -1,16 +1,13 @@
 <template>
-  <CRow alignVertical="center">
-    <CCol :class="horizontal.label">{{label}}</CCol>
-    <CCol :class="horizontal.input">
-      <LangEditor
+  <Label :label="label">
+    <LangEditor
       class="mb-4"
-        v-for="(lang, idx) in languages"
-        :key="idx"
-        :value="langValue(lang._id)"
-        @input="changeLanguage($event)"
-      />
-    </CCol>
-  </CRow>
+      v-for="(lang, idx) in languages"
+      :key="idx"
+      :value="langValue(lang._id)"
+      @input="changeLanguage($event)"
+    />
+  </Label>
 </template>
 
 <script>
@@ -30,7 +27,7 @@ export default {
 
   computed: {
     horizontal() {
-      return this.$store.getters.horizontal
+      return this.$store.getters.horizontal;
     },
     languages() {
       return this.$store.getters["language/languages"];

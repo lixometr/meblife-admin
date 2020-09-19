@@ -15,6 +15,11 @@
         <TInput class="mb-5" label="Название" v-model="category.name" />
         <TInput class="mb-5" label="Slug" v-model="category.slug" />
         <TInput class="mb-5" label="Маска продукта" v-model="category.product_mask" />
+        <ModuleGroupSelect class="mb-5" label="Группа модулей (верх)" v-model="category.module_groups_top"/>
+        <ModuleGroupSelect class="mb-5" label="Группа модулей (низ)" v-model="category.module_groups_bottom"/>
+        <Label class="mb-5" label="Вывдить продукты?">
+          <CInputCheckbox  custom :checked.sync="category.show_products"/>
+        </Label>
       </CCardBody>
     </CCard>
     <CCard>
@@ -54,6 +59,7 @@ import TTextArea from "@/components/TTextArea";
 import NInput from "@/components/NInput";
 import ImageUpload from "@/components/ImageUpload";
 import CategorySelect from "@/components/CategorySelect";
+import ModuleGroupSelect from "@/components/ModuleGroupSelect";
 export default {
   components: {
     TInput,
@@ -61,6 +67,7 @@ export default {
     NInput,
     ImageUpload,
     CategorySelect,
+    ModuleGroupSelect
   },
   props: {
     isNew: Boolean,

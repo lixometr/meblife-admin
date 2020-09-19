@@ -149,7 +149,9 @@ export default {
     CategorySelect,
   },
   async created() {
+    this.$loading.start();
     await this.fetchItems();
+    this.$loading.stop();
   },
   computed: {
     productFilters() {
@@ -167,7 +169,6 @@ export default {
   },
   methods: {
     async fetchItems() {
-      this.$loading.start();
       const filters = await this.makeFilters();
       let jsonFilters = {
         manufacturer: filters.manufacturer,
@@ -202,7 +203,6 @@ export default {
       } catch (err) {
         this.$error(err);
       }
-      this.$loading.stop();
     },
     async makeFilters() {
       try {
@@ -216,7 +216,9 @@ export default {
           filters.manufacturer = manufacturerSlugs;
         }
         if (this.productFilters.category) {
-          const { data } = await this.$api.get("categoryById", { id: this.productFilters.category });
+          const { data } = await this.$api.get("categoryById", {
+            id: this.productFilters.category,
+          });
           filters.category = data.slug;
         }
 

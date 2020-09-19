@@ -82,6 +82,10 @@ const Look = () => import("@/views/looks/look")
 const Inspirations = () => import("@/views/inspiration/inspirations")
 const Inspiration = () => import("@/views/inspiration/inspiration")
 
+const ModuleGroups = () => import("@/views/moduleGroup/moduleGroups")
+const ModuleGroup = () => import("@/views/moduleGroup/moduleGroup")
+const ModuleEditor = () => import("@/views/moduleGroup/ModuleEditor")
+
 Vue.use(Router)
 const router = new Router({
   mode: 'history', // https://router.vuejs.org/api/#mode
@@ -239,7 +243,39 @@ function configRoutes() {
           path: "inspiration/:id",
           component: Inspiration,
         },
-       
+        {
+          name: "ModuleGroups",
+          path: "module-groups",
+          component: ModuleGroups,
+        },
+        {
+          name: "ModuleGroupNew",
+          path: "module-group/new",
+          component: ModuleGroup,
+          props: {
+            isNew: true
+          }
+        },
+        {
+          name: "ModuleGroupEditorNew",
+          path: "module-group/:id/module//new",
+          component: ModuleEditor,
+          props: {
+            isNew: true
+          }
+        },
+        {
+          name: "ModuleGroupEditor",
+          path: "module-group/:id/module/:module_id",
+          component: ModuleEditor,
+        },
+        {
+          name: "ModuleGroup",
+          path: "module-group/:id",
+          component: ModuleGroup,
+        },
+
+
 
         {
           path: 'dashboard',

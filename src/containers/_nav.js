@@ -82,10 +82,16 @@ export default [
       },
       {
         _name: 'CSidebarNavItem',
+        name: 'CMS Группы модулей',
+        to: '/module-groups',
+      },
+      {
+        _name: 'CSidebarNavItem',
         name: 'Настройки',
         to: '/settings',
         icon: 'cil-settings'
       },
+
       // {
       //   _name: "CSidebarNavDropdown",
       //   name: "Настройки",

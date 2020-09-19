@@ -1,0 +1,250 @@
+<template>
+  <div class="module-editor" v-if="!$store.getters.isLoading">
+    <h4 class="mb-3">Модуль {{moduleNumber}}</h4>
+    <CCard>
+      <CCardBody>
+        <CImg block :style="{maxWidth: '100%'}" :src="moduleScreen" />
+      </CCardBody>
+    </CCard>
+    <CCard v-if="shouldShow('main_image') || shouldShow('module_items')">
+      <CCardHeader>Редактировать модуль</CCardHeader>
+      <CCardBody>
+        <EditImage label="Изображение" v-model="appModule.main_image.url" v-if="shouldShow('main_image')" />
+        <ProductAndCategorySelect
+          label="Товары и категории"
+          v-model="appModule.module_items"
+          v-if="shouldShow('module_items')"
+        />
+      </CCardBody>
+    </CCard>
+    <CCard>
+      <CCardHeader>Тексты</CCardHeader>
+      <CCardBody>
+        <TInput class="mb-4" label="Заголовок" v-model="appModule.title" v-if="shouldShow('title')" />
+        <TInput
+          class="mb-4"
+          label="Подзаголовок"
+          v-model="appModule.sub_title"
+          v-if="shouldShow('sub_title')"
+        />
+        <TTextArea
+          class="mb-4"
+          label="Описание"
+          v-model="appModule.description"
+          v-if="shouldShow('description')"
+        />
+        <TInput
+          class="mb-4"
+          label="Текст в кнопке"
+          v-model="appModule.more_btn"
+          v-if="shouldShow('more_btn')"
+        />
+        <TInput
+          class="mb-4"
+          label="Url в кнопке"
+          v-model="appModule.more_btn_url"
+          v-if="shouldShow('more_btn_url')"
+        />
+      </CCardBody>
+    </CCard>
+
+    <CCard v-if="shouldShow('module_images')">
+      <CCardHeader>Изображения</CCardHeader>
+      <CCardBody>
+        <ModuleImageEditor
+          @save="save"
+          v-model="appModule.module_images"
+          :translatedItems="moduleImages"
+        />
+      </CCardBody>
+    </CCard>
+
+    <CButton color="success mb-2 w-100" @click="save">
+      <CIcon name="cil-save" /> Сохранить
+    </CButton>
+    <CButton color="danger" class="mb-2" @click="onDelete">Удалить</CButton>
+  </div>
+</template>
+
+<script>
+import EditImage from "@/components/EditImage";
+import TTextArea from "@/components/TTextArea";
+import ProductAndCategorySelect from "@/components/ProductAndCategorySelect";
+import ModuleImageEditor from "@/components/Modules/ModuleImageEditor";
+const whatShow = {
+  3: ['texts', 'main_image', 'module_items'],
+  16: ['title', 'sub_title', 'description', 'module_images']
+}
+export default {
+  props: {
+    isNew: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
+  components: {
+    EditImage,
+    TTextArea,
+    ProductAndCategorySelect,
+    ModuleImageEditor,
+  },
+  data() {
+    return {
+      moduleGroup: {},
+      // translated
+      moduleImages: [],
+      // not translated
+      appModule: {
+        main_image: {},
+        title: [],
+        sub_title: [],
+        description: [],
+        more_btn: [],
+        more_btn_url: [],
+      },
+    };
+  },
+  async created() {
+    this.$loading.start();
+    await this.fetchItem();
+    this.$loading.stop();
+  },
+  computed: {
+    showOpts() {
+      return whatShow[this.moduleNumber] || []
+    },
+    shouldShow() {
+      return name => {
+        if(this.showOpts.includes('all')) return true
+        const isText = ['title', 'sub_title', 'description', 'more_btn', 'more_btn_url']
+        if(isText.includes(name)) {
+          if(this.showOpts.includes('texts')) return true
+        }
+        return this.showOpts.includes(name)
+      }
+    },
+
+    moduleGroupId() {
+      return this.$route.params.id;
+    },
+    moduleId() {
+      return this.$route.params.module_id;
+    },
+    moduleNumber() {
+      if (this.isNew) {
+        return this.$route.query.module_id;
+      } else {
+        return this.appModule.module_id.toString();
+      }
+    },
+    moduleScreen() {
+      const screens = {
+        16: "/module_16.png",
+        3: '/module_3.png'
+      };
+      return screens[this.moduleNumber];
+    },
+  },
+  methods: {
+    async fetchItem() {
+      try {
+        const { data: moduleGroup } = await this.$api.get(
+          "moduleGroupByIdAdmin",
+          { id: this.moduleGroupId },
+          {}
+        );
+        this.moduleGroup = moduleGroup;
+        if (!this.isNew) {
+          const { data } = await this.$api.get("moduleByIdAdmin", {
+            id: this.moduleId,
+          });
+          this.appModule = data;
+          await this.loadModuleImages();
+        } else {
+          const { data } = await this.$api.post(
+            "modules",
+            {},
+            {
+              module_id: this.moduleNumber,
+            }
+          );
+          this.moduleGroup.modules.push(data._id);
+          await this.$api.put(
+            "moduleGroupById",
+            { id: this.moduleGroupId },
+            this.moduleGroup
+          );
+          this.$router.push(
+            `/module-group/${this.moduleGroupId}/module/${data._id}`
+          );
+        }
+      } catch (err) {
+        this.$error(err);
+      }
+    },
+    async loadModuleImages(id) {
+      try {
+        const { data: appModule } = await this.$api.get("moduleById", {
+          id: this.moduleId,
+        });
+        this.moduleImages = appModule.module_images;
+      } catch (err) {
+        this.$error(err);
+      }
+    },
+
+    async save() {
+      try {
+        const { data: response } = await this.$api.put(
+          "moduleById",
+          { id: this.moduleId },
+          this.appModule
+        );
+        this.$notify({
+          group: "main",
+          title: "Сохранено!",
+          type: "success",
+        });
+        await this.fetchItem();
+      } catch (err) {
+        this.$error(err);
+      }
+    },
+    async onDelete() {
+      try {
+        const { data } = await this.$api.delete("moduleById", {
+          id: this.moduleId,
+        });
+        this.$notify({
+          group: "main",
+          title: "Удалено!",
+          type: "success",
+        });
+        this.$router.push(`/module-group/${this.moduleGroupId}`);
+      } catch (err) {
+        this.$error(err);
+      }
+    },
+  },
+  watch: {
+    appModule: {
+      deep: true,
+      handler() {
+        const moduleImages = [];
+        this.appModule.module_images.map((moduleImage) => {
+          const image = this.moduleImages.find(
+            (item) => item._id === moduleImage._id
+          );
+          if (!image) return;
+          moduleImages.push(image);
+        });
+        this.moduleImages = moduleImages;
+      },
+    },
+  },
+};
+</script>
+
+<style lang="scss">
+</style>

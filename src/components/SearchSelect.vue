@@ -45,8 +45,8 @@ export default {
       type: String,
       default: "_id",
     },
-    inputClass: [String,Array,Object],
-    required: Boolean
+    inputClass: [String, Array, Object],
+    required: Boolean,
   },
 
   data() {
@@ -76,14 +76,20 @@ export default {
       let values;
       if (!value) return this.$emit("input", null);
       if (this.multiple) {
-        values = value.map((val) => val._id);
+        values = value.map((val) => val[this.keyField]);
+        values = values.filter(
+          (value, index) => values.findIndex((val) => val === value) === index
+        );
       } else {
-        values = value._id;
+        values = value[this.keyField];
       }
       this.$emit("input", values);
     },
     async loadItems() {
-      if (!this.value) return;
+      if (!this.value) {
+        this.selectValues = this.value
+        return
+      };
       try {
         if (this.multiple) {
           const resolvers = this.value.map(this.findItem);
