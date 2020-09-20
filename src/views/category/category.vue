@@ -15,10 +15,21 @@
         <TInput class="mb-5" label="Название" v-model="category.name" />
         <TInput class="mb-5" label="Slug" v-model="category.slug" />
         <TInput class="mb-5" label="Маска продукта" v-model="category.product_mask" />
-        <ModuleGroupSelect class="mb-5" label="Группа модулей (верх)" v-model="category.module_groups_top"/>
-        <ModuleGroupSelect class="mb-5" label="Группа модулей (низ)" v-model="category.module_groups_bottom"/>
+        <ModuleGroupSelect
+          class="mb-5"
+          label="Группа модулей (верх)"
+          v-model="category.module_groups_top"
+        />
+        <ModuleGroupSelect
+          class="mb-5"
+          label="Группа модулей (низ)"
+          v-model="category.module_groups_bottom"
+        />
         <Label class="mb-5" label="Вывдить продукты?">
-          <CInputCheckbox  custom :checked.sync="category.show_products"/>
+          <CInputCheckbox custom :checked.sync="category.show_products" />
+        </Label>
+        <Label class="mb-5" label="Вывдить категории?">
+          <CInputCheckbox custom :checked.sync="category.show_category_grid" />
         </Label>
       </CCardBody>
     </CCard>
@@ -48,7 +59,9 @@
       </CCardBody>
     </CCard>
 
-    <CButton color="success mb-2 w-100" @click="save">  <CIcon name="cil-save" /> Сохранить</CButton>
+    <CButton color="success mb-2 w-100" @click="save">
+      <CIcon name="cil-save" />Сохранить
+    </CButton>
     <CButton color="danger mb-3" @click="onDelete">Удалить</CButton>
   </div>
 </template>
@@ -67,14 +80,20 @@ export default {
     NInput,
     ImageUpload,
     CategorySelect,
-    ModuleGroupSelect
+    ModuleGroupSelect,
   },
   props: {
     isNew: Boolean,
   },
   data() {
     return {
-      category: {},
+      category: {
+        name: [],
+        slug: [],
+        product_mask: [],
+        image: {},
+        bg_image: {},
+      },
     };
   },
   computed: {
@@ -92,8 +111,7 @@ export default {
         this.category = data;
       } else {
         const { data } = await this.$api.post("categories");
-        this.$router.push("/category/" + data._id);
-        this.category = data;
+        this.$router.push({ name: "Category", params: { id: data._id } });
       }
     } catch (err) {
       this.$error(err);
@@ -128,7 +146,7 @@ export default {
           title: "Удалено!",
           type: "success",
         });
-        this.$router.push("/categories");
+        this.$router.push({ name: "Categories" });
       } catch (err) {
         this.$error(err);
       }

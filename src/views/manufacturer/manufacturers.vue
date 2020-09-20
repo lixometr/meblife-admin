@@ -1,6 +1,6 @@
 <template>
   <div v-if="!$store.getters.isLoading">
-    <CButton color="primary" @click="$router.push('/manufacturer/new')">
+    <CButton color="primary" @click="$router.push({name: 'ManufacturerNew'})">
       Добавить производителя
       <CIcon class="ml-1" name="cib-addthis" />
     </CButton>
@@ -9,7 +9,7 @@
         <template #edit="{item}">
           <td>
             <div class="d-flex">
-              <CButton color="warning" @click="$router.push('/manufacturer/'+item._id)">
+              <CButton color="warning" @click="$router.push({name: 'Manufacturer', params: {id: item._id}})">
                 <CIcon name="cil-pencil"></CIcon>
               </CButton>
               <CButton color="danger" class="ml-2" @click="removeItem(item._id)">

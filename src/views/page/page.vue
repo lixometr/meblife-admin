@@ -5,26 +5,21 @@
       <CCardBody>
         <div>
           Создан:
-          <b>{{manufacturer.created_at | moment('DD.MM.YYYY hh:mm')}}</b>
+          <b>{{page.created_at | moment('DD.MM.YYYY hh:mm')}}</b>
         </div>
       </CCardBody>
     </CCard>
     <CCard>
-      <CCardHeader></CCardHeader>
+      <CCardHeader>Редактировать страницу</CCardHeader>
       <CCardBody>
-        <TInput class="mb-5" label="Название" v-model="manufacturer.name" />
-        <TInput class="mb-5" label="Slug" v-model="manufacturer.slug" />
-        <CRow class="mb-5" alignVertical="center">
-          <CCol :class="horizontal.label">Изображение</CCol>
-          <CCol :class="horizontal.input">
-            <ImageUpload width="150px" v-model="manufacturer.image.url" />
-          </CCol>
-        </CRow>
-        <TTextArea label="История" v-model="manufacturer.history" />
+        <TInput class="mb-5" label="Название" v-model="page.name" />
+        <TInput class="mb-5" label="Slug" v-model="page.slug" />
+        <EditImage class="mb-5" label="Изображение на фоне" v-model="page.header_image.url" />
+        <ModuleGroupSelect label="Группа модулей" v-model="page.module_groups"/>
       </CCardBody>
     </CCard>
     <CButton color="success mb-2 w-100" @click="save">
-      <CIcon name="cil-save" />Сохранить
+      <CIcon name="cil-save" /> Сохранить
     </CButton>
     <CButton color="danger" class="mb-2" @click="onDelete">Удалить</CButton>
   </div>
@@ -35,19 +30,27 @@ import TInput from "@/components/TInput";
 import TTextArea from "@/components/TTextArea";
 import NInput from "@/components/NInput";
 import ImageUpload from "@/components/ImageUpload";
+import EditImage from "@/components/EditImage";
+import ModuleGroupSelect from "@/components/ModuleGroupSelect";
 export default {
   components: {
     TInput,
     TTextArea,
     NInput,
+    EditImage,
     ImageUpload,
+    ModuleGroupSelect
   },
   props: {
     isNew: Boolean,
   },
   data() {
     return {
-      manufacturer: {},
+      page: {
+        name: [],
+        slug: [],
+        header_image: {}
+      },
     };
   },
   computed: {
@@ -59,14 +62,14 @@ export default {
     this.$loading.start();
     try {
       if (!this.isNew) {
-        const { data } = await this.$api.get("manufacturerByIdAdmin", {
+        const { data } = await this.$api.get("pageByIdAdmin", {
           id: this.$route.params.id,
         });
-        this.manufacturer = data;
+        this.page = data;
       } else {
-        const { data } = await this.$api.post("manufacturers");
-        this.$router.push({ name: "Manufacturer", params: { id: data._id } });
-        this.manufacturer = data;
+        const { data } = await this.$api.post("pages");
+        this.$router.push({ name: "Page", params: { id: data._id } });
+        this.page = data;
       }
     } catch (err) {
       this.$error(err);
@@ -78,9 +81,9 @@ export default {
     async save() {
       try {
         const { data: response } = await this.$api.put(
-          "manufacturerById",
-          { id: this.manufacturer._id },
-          this.manufacturer
+          "pageById",
+          { id: this.page._id },
+          this.page
         );
         this.$notify({
           group: "main",
@@ -93,15 +96,15 @@ export default {
     },
     async onDelete() {
       try {
-        const { data } = await this.$api.delete("manufacturerById", {
-          id: this.manufacturer._id,
+        const { data } = await this.$api.delete("pageById", {
+          id: this.page._id,
         });
         this.$notify({
           group: "main",
           title: "Удалено!",
           type: "success",
         });
-        this.$router.push({ name: "Manufacturers" });
+        this.$router.push({ name: "Pages" });
       } catch (err) {
         this.$error(err);
       }

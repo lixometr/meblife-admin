@@ -21,22 +21,14 @@
           <CCol :class="horizontal.input">
             <CInputCheckbox custom :checked.sync="inspiration.no_template" />
           </CCol>
-        </CRow> -->
+        </CRow>-->
       </CCardBody>
     </CCard>
     <template v-if="!inspiration.no_template">
       <CCard>
         <CCardBody>
-          <TInput
-            class="mb-5"
-            label="Заголовок"
-            v-model="inspiration.introduction_title"
-          />
-          <TTextArea
-            class="mb-5"
-            label="Текст"
-            v-model="inspiration.introduction_text"
-          />
+          <TInput class="mb-5" label="Заголовок" v-model="inspiration.introduction_title" />
+          <TTextArea class="mb-5" label="Текст" v-model="inspiration.introduction_text" />
         </CCardBody>
       </CCard>
       <CCard>
@@ -154,10 +146,17 @@ export default {
         slug: [],
         image: {},
         header_image: {},
-        manufacturer: {},
         products1: [],
         products2: [],
         products3: [],
+
+        introduction_title: [],
+        introduction_text: [],
+        first_block_introduction_title: [],
+        first_block_introduction_text: [],
+
+        second_block_introduction_title: [],
+        second_block_introduction_text: [],
         first_block_image_left: {},
         first_block_image_right: {},
 
@@ -165,12 +164,11 @@ export default {
         second_block_image_right: {},
         separator_image: {},
       },
-    
     };
   },
   computed: {
     horizontal() {
-      return this.$store.getters.horizontal
+      return this.$store.getters.horizontal;
     },
   },
   async created() {
@@ -183,8 +181,7 @@ export default {
         this.inspiration = data;
       } else {
         const { data } = await this.$api.post("inspirations");
-        this.$router.push("/inspiration/" + data._id);
-        this.inspiration = data;
+        this.$router.push({name: "Inspiration", params: {id: data._id}});
       }
     } catch (err) {
       this.$error(err);
@@ -219,7 +216,7 @@ export default {
           title: "Удалено!",
           type: "success",
         });
-        this.$router.push("/inspirations");
+        this.$router.push({ name: "Inspirations" });
       } catch (err) {
         this.$error(err);
       }

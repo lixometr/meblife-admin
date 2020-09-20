@@ -1,6 +1,7 @@
 <template>
-  <Label :label="label" :required="required">
+  <Label :label="label" :required="required" class="t-input">
     <LangInput
+      class="lang-input"
       v-for="(lang, idx) in languages"
       :key="idx"
       :value="langValue(lang._id)"
@@ -30,7 +31,7 @@ export default {
       return this.$store.getters.horizontal;
     },
     languages() {
-      return this.$store.getters["language/languages"];
+      return this.$store.getters["language/activeLanguages"];
     },
     langValue() {
       return (langId) => {
@@ -58,5 +59,12 @@ export default {
 };
 </script>
 
-<style lang="scss" >
+<style lang="scss" scoped>
+.t-input {
+  .lang-input {
+    &:last-child {
+      margin-bottom: 0!important;
+    }
+  }
+}
 </style>

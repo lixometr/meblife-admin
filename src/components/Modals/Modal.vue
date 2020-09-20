@@ -78,8 +78,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.content {
-}
+
 .modal-wrapper {
   overflow: auto;
   max-height: 100%;

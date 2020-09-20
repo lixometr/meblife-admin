@@ -30,7 +30,7 @@ export default {
       return this.$store.getters.horizontal;
     },
     languages() {
-      return this.$store.getters["language/languages"];
+      return this.$store.getters["language/activeLanguages"];
     },
     langValue() {
       return (langId) => {

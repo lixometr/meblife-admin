@@ -240,7 +240,7 @@ export default {
         this.setProduct(data);
       } else {
         const { data } = await this.$api.post("products");
-        this.$router.push("/product/" + data._id);
+        this.$router.push({name: "Product", params: {id: data._id}});
         this.product = data;
       }
     } catch (err) {
@@ -298,7 +298,7 @@ export default {
           title: "Удалено!",
           type: "success",
         });
-        this.$router.push("/products");
+        this.$router.push({name: "Products"});
       } catch (err) {
         this.$error(err);
       }

@@ -72,6 +72,11 @@ export default [
       },
       {
         _name: 'CSidebarNavItem',
+        name: 'Страницы',
+        to: '/pages',
+      },
+      {
+        _name: 'CSidebarNavItem',
         name: 'Образы',
         to: '/looks',
       },
@@ -85,6 +90,7 @@ export default [
         name: 'CMS Группы модулей',
         to: '/module-groups',
       },
+
       {
         _name: 'CSidebarNavItem',
         name: 'Настройки',

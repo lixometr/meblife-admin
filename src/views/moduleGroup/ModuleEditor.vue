@@ -9,7 +9,11 @@
     <CCard v-if="shouldShow('main_image') || shouldShow('module_items')">
       <CCardHeader>Редактировать модуль</CCardHeader>
       <CCardBody>
-        <EditImage label="Изображение" v-model="appModule.main_image.url" v-if="shouldShow('main_image')" />
+        <EditImage
+          label="Изображение"
+          v-model="appModule.main_image.url"
+          v-if="shouldShow('main_image')"
+        />
         <ProductAndCategorySelect
           label="Товары и категории"
           v-model="appModule.module_items"
@@ -17,10 +21,22 @@
         />
       </CCardBody>
     </CCard>
-    <CCard>
+    <CCard
+      v-if="
+          shouldShow('title') 
+          || shouldShow('sub_title') 
+          || shouldShow('description') 
+          || shouldShow('more_btn') 
+          || shouldShow('more_btn_url')"
+    >
       <CCardHeader>Тексты</CCardHeader>
       <CCardBody>
-        <TInput class="mb-4" label="Заголовок" v-model="appModule.title" v-if="shouldShow('title')" />
+        <TInput
+          class="mb-4"
+          label="Заголовок"
+          v-model="appModule.title"
+          v-if="shouldShow('title')"
+        />
         <TInput
           class="mb-4"
           label="Подзаголовок"
@@ -49,18 +65,19 @@
     </CCard>
 
     <CCard v-if="shouldShow('module_images')">
-      <CCardHeader>Изображения</CCardHeader>
+      <CCardHeader>Текст с изображением</CCardHeader>
       <CCardBody>
         <ModuleImageEditor
           @save="save"
           v-model="appModule.module_images"
+          :moduleNumber="moduleNumber"
           :translatedItems="moduleImages"
         />
       </CCardBody>
     </CCard>
 
     <CButton color="success mb-2 w-100" @click="save">
-      <CIcon name="cil-save" /> Сохранить
+      <CIcon name="cil-save" />Сохранить
     </CButton>
     <CButton color="danger" class="mb-2" @click="onDelete">Удалить</CButton>
   </div>
@@ -72,9 +89,16 @@ import TTextArea from "@/components/TTextArea";
 import ProductAndCategorySelect from "@/components/ProductAndCategorySelect";
 import ModuleImageEditor from "@/components/Modules/ModuleImageEditor";
 const whatShow = {
-  3: ['texts', 'main_image', 'module_items'],
-  16: ['title', 'sub_title', 'description', 'module_images']
-}
+  3: ["texts", "main_image", "module_items"],
+  8: ["texts", "main_image"],
+  16: ["title", "sub_title", "description", "module_images"],
+  19: ["module_images"],
+  15: ["title", "description"],
+  21: ["title", "description"],
+  22: ["module_images"],
+  23: ["title", "sub_title", "module_images"],
+  35: ["title"],
+};
 export default {
   props: {
     isNew: {
@@ -112,17 +136,23 @@ export default {
   },
   computed: {
     showOpts() {
-      return whatShow[this.moduleNumber] || []
+      return whatShow[this.moduleNumber] || [];
     },
     shouldShow() {
-      return name => {
-        if(this.showOpts.includes('all')) return true
-        const isText = ['title', 'sub_title', 'description', 'more_btn', 'more_btn_url']
-        if(isText.includes(name)) {
-          if(this.showOpts.includes('texts')) return true
+      return (name) => {
+        if (this.showOpts.includes("all")) return true;
+        const isText = [
+          "title",
+          "sub_title",
+          "description",
+          "more_btn",
+          "more_btn_url",
+        ];
+        if (isText.includes(name)) {
+          if (this.showOpts.includes("texts")) return true;
         }
-        return this.showOpts.includes(name)
-      }
+        return this.showOpts.includes(name);
+      };
     },
 
     moduleGroupId() {
@@ -139,10 +169,10 @@ export default {
       }
     },
     moduleScreen() {
-      const screens = {
-        16: "/module_16.png",
-        3: '/module_3.png'
-      };
+      const screens = {};
+      new Array(40)
+        .fill(1)
+        .map((_, idx) => (screens[idx] = `/modules/module_${idx}.png`));
       return screens[this.moduleNumber];
     },
   },
@@ -175,9 +205,14 @@ export default {
             { id: this.moduleGroupId },
             this.moduleGroup
           );
-          this.$router.push(
-            `/module-group/${this.moduleGroupId}/module/${data._id}`
-          );
+   
+          this.$router.push({
+            name: "ModuleGroupEditor",
+            params: { id: this.moduleGroupId, module_id: data._id },
+          });
+          // this.$router.push(
+          //   `/module-group/${this.moduleGroupId}/module/${data._id}`
+          // );
         }
       } catch (err) {
         this.$error(err);
@@ -221,7 +256,11 @@ export default {
           title: "Удалено!",
           type: "success",
         });
-        this.$router.push(`/module-group/${this.moduleGroupId}`);
+        this.$router.push({
+          name: "ModuleGroup",
+          params: { id: this.moduleGroupId },
+        });
+        // this.$router.push(`/module-group/${this.moduleGroupId}`);
       } catch (err) {
         this.$error(err);
       }

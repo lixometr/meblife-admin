@@ -23,7 +23,7 @@
       </CCardBody>
     </CCard>
 
-    <CButton color="primary" @click="$router.push('/product/new')">
+    <CButton color="primary" @click="$router.push({name: 'ProductNew'})">
       Добавить товар
       <CIcon class="ml-1" name="cib-addthis" />
     </CButton>
@@ -40,7 +40,7 @@
         <template #edit="{item}">
           <td>
             <div class="d-flex">
-              <CButton color="warning" class="mr-2" @click="$router.push('/product/'+item._id)">
+              <CButton color="warning" class="mr-2" @click="$router.push({name: 'Product', params: {id: item._id}})">
                 <CIcon name="cil-pencil"></CIcon>
               </CButton>
               <CButton color="danger" @click="removeItem(item._id)">

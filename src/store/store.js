@@ -38,7 +38,6 @@ const mutations = {
 const actions = {
   async init({commit}) {
     commit('user/initToken')
-    console.log(this)
     const resolvers = [
       async () => {
         await this.dispatch('language/fetch')

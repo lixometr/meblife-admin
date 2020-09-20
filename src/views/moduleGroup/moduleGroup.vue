@@ -12,7 +12,7 @@
     <CCard>
       <CCardHeader>Обновить группу модулей</CCardHeader>
       <CCardBody>
-        <TInput  label="Название" v-model="moduleGroup.name" />
+        <TInput label="Название" v-model="moduleGroup.name" />
       </CCardBody>
     </CCard>
     <CCard>
@@ -40,6 +40,9 @@
               </CCol>
               <CCol class="p-2" col="3">
                 <div class="d-flex justify-content-end">
+                  <CButton class="move mr-1">
+                    <CIcon name="cil-cursor-move"></CIcon>
+                  </CButton>
                   <CButton color="warning" @click="editModule(item._id)">
                     <CIcon name="cil-pencil"></CIcon>
                   </CButton>
@@ -58,7 +61,7 @@
       </CCardBody>
     </CCard>
     <CButton color="success mb-2 w-100" @click="save">
-      <CIcon name="cil-save" /> Сохранить
+      <CIcon name="cil-save" />Сохранить
     </CButton>
     <CButton color="danger" class="mb-2" @click="onDelete">Удалить</CButton>
   </div>
@@ -123,7 +126,7 @@ export default {
           await this.fetchModules();
         } else {
           const { data } = await this.$api.post("moduleGroups");
-          this.$router.push("/module-group/" + data._id);
+          this.$router.push({ name: "ModuleGroup", params: { id: data._id } });
           this.moduleGroup = data;
         }
       } catch (err) {
@@ -144,7 +147,11 @@ export default {
       this.modules = await Promise.all(resolvers);
     },
     editModule(id) {
-      this.$router.push(`/module-group/${this.$route.params.id}/module/${id}`);
+      this.$router.push({
+        name: "ModuleGroupEditor",
+        params: { id: this.$route.params.id, module_id: id },
+      });
+      // this.$router.push(`/module-group/${this.$route.params.id}/module/${id}`);
     },
     async deleteModule(id) {
       try {
@@ -163,13 +170,17 @@ export default {
     },
 
     addModule() {
-      console.log(this.moduleId);
 
       if (this.moduleId) {
         this.$router.push({
-          path: `/module-group/${this.$route.params.id}/module/new`,
+          name: "ModuleGroupEditorNew",
+
           query: { module_id: this.moduleId },
         });
+        // this.$router.push({
+        //   path: `/module-group/${this.$route.params.id}/module/new`,
+        //   query: { module_id: this.moduleId },
+        // });
       }
     },
     async save() {
@@ -201,7 +212,7 @@ export default {
           title: "Удалено!",
           type: "success",
         });
-        this.$router.push("/module-groups");
+        this.$router.push({name:"ModuleGroups"});
       } catch (err) {
         this.$error(err);
       }

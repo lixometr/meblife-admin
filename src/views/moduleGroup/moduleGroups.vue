@@ -9,7 +9,7 @@
         <CInput v-model="searchPhrase" />
       </CCardBody>
     </CCard>
-    <CButton color="primary" @click="$router.push('/module-group/new')">
+    <CButton color="primary" @click="$router.push({name: 'ModuleGroupNew'})">
       Добавить группу модулей
       <CIcon class="ml-1" name="cib-addthis" />
     </CButton>
@@ -17,7 +17,7 @@
       <template #edit="{item}">
         <td>
           <div class="d-flex">
-            <CButton color="warning" @click="$router.push('/module-group/'+item._id)">
+            <CButton color="warning" @click="$router.push({name: 'ModuleGroup', params: {id: item._id}})">
               <CIcon name="cil-pencil"></CIcon>
             </CButton>
             <CButton color="danger" class="ml-2" @click="removeItem(item._id)">

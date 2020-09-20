@@ -13,7 +13,7 @@
         <CCardHeader>Редактировать значение атрибута</CCardHeader>
         <CCardBody>
           <TInput label="Название" class="mb-4" v-model="attributeValue.name" />
-          <TInput label="Slug" v-model="attributeValue.slug" />
+          <TInput class="mb-4"  label="Slug" v-model="attributeValue.slug" />
 
           <AttributeSelect label="Атрибут" :multiple="false" v-model="attributeValue.attributeId" />
 

@@ -1,6 +1,6 @@
 <template>
   <div v-if="!$store.getters.isLoading">
-    <CButton color="primary" @click="$router.push('/category/new')">
+    <CButton color="primary" @click="$router.push({name: 'CategoryNew'})">
       Добавить категорию
       <CIcon class="ml-1" name="cib-addthis" />
     </CButton>
@@ -9,7 +9,7 @@
         <template #edit="{item}">
           <td>
             <div class="d-flex">
-              <CButton color="warning" @click="$router.push('/category/'+item._id)">
+              <CButton color="warning" @click="$router.push({name: 'Category', params: {id: item._id}})">
                 <CIcon name="cil-pencil"></CIcon>
               </CButton>
               <CButton color="danger" class="ml-2" @click="removeItem(item._id)">

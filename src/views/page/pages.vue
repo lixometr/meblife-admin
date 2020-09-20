@@ -1,21 +1,27 @@
 <template>
   <div v-if="!$store.getters.isLoading">
-    <CButton color="primary" @click="$router.push({name: 'AttributeNew'})">
-      Добавить атрибут
+    <CButton color="primary" @click="$router.push({name: 'PageNew'})">
+      Добавить страницу
       <CIcon class="ml-1" name="cib-addthis" />
     </CButton>
     <CCardBody>
-      <CDataTable :items="attributes" :fields="fields" border outlined striped>
+      <CDataTable :items="pages" :fields="fields" border outlined striped>
         <template #edit="{item}">
           <td>
             <div class="d-flex">
-              <CButton color="warning" @click="$router.push({name: 'Attribute', params: {id: item._id}})">
+              <CButton color="warning" @click="$router.push({name: 'Page', params: {id: item._id}})">
                 <CIcon name="cil-pencil"></CIcon>
               </CButton>
               <CButton color="danger" class="ml-2" @click="removeItem(item._id)">
                 <CIcon name="cil-trash"></CIcon>
               </CButton>
             </div>
+          </td>
+        </template>
+
+        <template #header_image="{item}">
+          <td>
+            <CImg :src="item.header_image.url" width="150px" />
           </td>
         </template>
       </CDataTable>
@@ -27,8 +33,9 @@
 export default {
   data() {
     return {
-      attributes: [],
+      pages: [],
       fields: [
+        
         {
           key: "name",
           label: "Название",
@@ -37,11 +44,12 @@ export default {
           key: "slug",
         },
         {
-          key: "attribute_type",
+          key: "header_image",
+          label: "Картинка",
         },
         {
           key: "edit",
-          label: "Действия",
+          label: "Действия"
         },
       ],
     };
@@ -53,8 +61,8 @@ export default {
     async fetchItems() {
       this.$loading.start();
       try {
-        const { data: attributes } = await this.$api.get("attributes");
-        this.attributes = attributes;
+        const { data: pages } = await this.$api.get("pages");
+        this.pages = pages;
       } catch (err) {
         this.$error(err);
       }
@@ -62,7 +70,7 @@ export default {
     },
     async removeItem(id) {
       try {
-        const { data: attributes } = await this.$api.delete("attributeById", {
+        const { data: attributes } = await this.$api.delete("pageById", {
           id,
         });
         this.$notify({

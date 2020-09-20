@@ -21,6 +21,9 @@
         </CCol>
         <CCol class="p-2" col="3">
           <div class="d-flex justify-content-end">
+            <CButton class="move mr-1">
+              <CIcon name="cil-cursor-move"></CIcon>
+            </CButton>
             <CButton color="warning" @click="editImageItem(idx)">
               <CIcon name="cil-pencil"></CIcon>
             </CButton>
@@ -43,6 +46,7 @@ import ModuleImageModal from "@/components/Modals/ModuleImageModal";
 
 export default {
   props: {
+    moduleNumber: String,
     value: {
       type: Array,
       default: () => [],
@@ -73,7 +77,7 @@ export default {
     onItemChange(value, isNew) {
       const newValue = [...this.items];
       if (isNew) {
-        console.log('is new', value)
+        console.log("is new", value);
         newValue.push(value);
       } else {
         newValue[this.itemIdx] = value;
@@ -84,7 +88,7 @@ export default {
     editImageItem(idx) {
       this.itemIdx = idx;
       const item = this.items[idx];
-      this.openImageModal(item, false)
+      this.openImageModal(item, false);
     },
     openImageModal(item, isNew) {
       this.$modal.show(
@@ -92,7 +96,8 @@ export default {
         {
           item,
           change: this.onItemChange,
-          isNew
+          isNew,
+          moduleNumber: this.moduleNumber
         },
         {
           width: "100%",
@@ -101,12 +106,12 @@ export default {
       );
     },
     deleteImageItem(idx) {
-      const newValue = [...this.items]
-      newValue.splice(idx, 1)
-      this.$emit('input', newValue)
+      const newValue = [...this.items];
+      newValue.splice(idx, 1);
+      this.$emit("input", newValue);
     },
     addImageItem() {
-      this.openImageModal(undefined, true)
+      this.openImageModal(undefined, true);
     },
   },
 };

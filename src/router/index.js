@@ -86,6 +86,10 @@ const ModuleGroups = () => import("@/views/moduleGroup/moduleGroups")
 const ModuleGroup = () => import("@/views/moduleGroup/moduleGroup")
 const ModuleEditor = () => import("@/views/moduleGroup/ModuleEditor")
 
+
+const Pages = () => import("@/views/page/pages")
+const Page = () => import("@/views/page/page")
+
 Vue.use(Router)
 const router = new Router({
   mode: 'history', // https://router.vuejs.org/api/#mode
@@ -121,76 +125,125 @@ function configRoutes() {
 
       children: [
         {
-          name: "ProductNew",
-          path: "product/new",
-          component: Product,
-          props: {
-            isNew: true
-          }
-        },
-        {
-          name: "Product",
-          path: "product/:id",
-          component: Product,
-        },
-        {
-          name: "Products",
           path: "products",
-          component: Products,
+          meta: {
+            label: 'Products'
+          },
+          component: {
+            render(c) { return c('router-view') }
+          },
+          children: [
+            {
+              path: '',
+              component: Products,
+              name: "Products"
+            },
+            {
+              path: "new",
+              name: "ProductNew",
+              component: Product,
+              props: {
+                isNew: true
+              }
+            },
+            {
+              path: ":id",
+              name: "Product",
+              component: Product,
+            },
+          ]
         },
+
         {
-          name: "ManufacturerNew",
-          path: "manufacturer/new",
-          component: Manufacturer,
-          props: {
-            isNew: true
-          }
+          path: "/manufacturers",
+          meta: {
+            label: 'Manufacturers'
+          },
+          component: {
+            render(c) { return c('router-view') }
+          },
+          children: [
+            {
+              path: '',
+              name: "Manufacturers",
+              component: Manufacturers,
+
+            },
+            {
+              name: "ManufacturerNew",
+              path: "new",
+              component: Manufacturer,
+              props: {
+                isNew: true
+              }
+            },
+            {
+              name: "Manufacturer",
+              path: ":id",
+              component: Manufacturer,
+            },
+          ]
         },
+
         {
-          name: "Manufacturer",
-          path: "manufacturer/:id",
-          component: Manufacturer,
-        },
-        {
-          name: "Manufacturers",
-          path: "manufacturers",
-          component: Manufacturers,
-        },
-        {
-          name: "CategoryNew",
-          path: "category/new",
-          component: Category,
-          props: {
-            isNew: true
-          }
-        },
-        {
-          name: "Category",
-          path: "category/:id",
-          component: Category,
-        },
-        {
-          name: "Categories",
           path: "categories",
-          component: Categories,
+          meta: {
+            label: 'Categories'
+          },
+          component: {
+            render(c) { return c('router-view') }
+          },
+          children: [
+            {
+              path: '',
+              name: "Categories",
+              component: Categories,
+            },
+            {
+              name: "CategoryNew",
+              path: "new",
+              component: Category,
+              props: {
+                isNew: true
+              }
+            },
+            {
+              name: "Category",
+              path: ":id",
+              component: Category,
+            },
+          ]
         },
+
         {
-          name: "AttributeNew",
-          path: "attribute/new",
-          component: Attribute,
-          props: {
-            isNew: true
-          }
-        },
-        {
-          name: "Attribute",
-          path: "attribute/:id",
-          component: Attribute,
-        },
-        {
-          name: "Attributes",
           path: "attributes",
-          component: Attributes,
+          meta: {
+            label: 'Attributes'
+          },
+          component: {
+            render(c) { return c('router-view') }
+          },
+          children: [
+            {
+              path: '',
+              component: Attributes,
+              name: "Attributes",
+
+            },
+            {
+              name: "AttributeNew",
+              path: "new",
+              component: Attribute,
+              props: {
+                isNew: true
+              }
+            },
+            {
+              name: "Attribute",
+              path: ":id",
+              component: Attribute,
+            },
+          ]
         },
         {
           name: "Languages",
@@ -208,72 +261,153 @@ function configRoutes() {
           component: Settings,
         },
         {
-          name: "Looks",
           path: "looks",
-          component: Looks,
+          meta: {
+            label: 'Attributes'
+          },
+          component: {
+            render(c) { return c('router-view') }
+          },
+          children: [
+            {
+              path: '',
+              component: Looks,
+              name: "Looks",
+
+            },
+            {
+              name: "LookNew",
+              path: "new",
+              component: Look,
+              props: {
+                isNew: true
+              }
+            },
+            {
+              name: "Look",
+              path: ":id",
+              component: Look,
+            },
+          ]
         },
+
         {
-          name: "LookNew",
-          path: "look/new",
-          component: Look,
-          props: {
-            isNew: true
-          }
-        },
-        {
-          name: "Look",
-          path: "look/:id",
-          component: Look,
-        },
-        {
-          name: "Inspirations",
           path: "inspirations",
-          component: Inspirations,
+          meta: {
+            label: 'Inspirations'
+          },
+          component: {
+            render(c) { return c('router-view') }
+          },
+          children: [
+            {
+              name: "Inspirations",
+              component: Inspirations,
+
+              path: '',
+            },
+            {
+              name: "InspirationNew",
+              path: "new",
+              component: Inspiration,
+              props: {
+                isNew: true
+              }
+            },
+            {
+              name: "Inspiration",
+              path: ":id",
+              component: Inspiration,
+            },
+          ]
         },
+
         {
-          name: "InspirationNew",
-          path: "inspiration/new",
-          component: Inspiration,
-          props: {
-            isNew: true
-          }
-        },
-        {
-          name: "Inspiration",
-          path: "inspiration/:id",
-          component: Inspiration,
-        },
-        {
-          name: "ModuleGroups",
           path: "module-groups",
-          component: ModuleGroups,
+          meta: {
+            label: 'ModuleGroups'
+          },
+          component: {
+            render(c) { return c('router-view') }
+          },
+          children: [
+            {
+              path: '',
+              component: ModuleGroups,
+              name: "ModuleGroups",
+            },
+            {
+              name: "ModuleGroupNew",
+              path: "new",
+              component: ModuleGroup,
+              props: {
+                isNew: true
+              }
+            },
+
+            {
+              path: ":id",
+              meta: {
+                label: 'ModuleGroup'
+              },
+              component: {
+                render(c) { return c('router-view') }
+              },
+              children: [
+                {
+                  path: "",
+                  name: "ModuleGroup",
+                  component: ModuleGroup,
+                },
+                {
+                  name: "ModuleGroupEditorNew",
+                  path: "module/new",
+                  component: ModuleEditor,
+                  props: {
+                    isNew: true
+                  }
+                },
+                {
+                  name: "ModuleGroupEditor",
+                  path: "module/:module_id",
+                  component: ModuleEditor,
+                },
+              ]
+            },
+          ]
         },
         {
-          name: "ModuleGroupNew",
-          path: "module-group/new",
-          component: ModuleGroup,
-          props: {
-            isNew: true
-          }
+          path: "pages",
+          meta: {
+            label: 'Pages'
+          },
+          component: {
+            render(c) { return c('router-view') }
+          },
+          children: [
+            {
+              name: "Pages",
+              component:  Pages,
+
+              path: '',
+            },
+            {
+              name: "PageNew",
+              path: "new",
+              component: Page,
+              props: {
+                isNew: true
+              }
+            },
+            {
+              name: "Page",
+              path: ":id",
+              component:  Page,
+            },
+          ]
         },
-        {
-          name: "ModuleGroupEditorNew",
-          path: "module-group/:id/module//new",
-          component: ModuleEditor,
-          props: {
-            isNew: true
-          }
-        },
-        {
-          name: "ModuleGroupEditor",
-          path: "module-group/:id/module/:module_id",
-          component: ModuleEditor,
-        },
-        {
-          name: "ModuleGroup",
-          path: "module-group/:id",
-          component: ModuleGroup,
-        },
+
+
 
 
 
@@ -520,36 +654,36 @@ function configRoutes() {
       name: 'Login',
       component: Login
     },
-    {
-      path: '/pages',
-      redirect: '/pages/404',
-      name: 'Pages',
-      component: {
-        render(c) { return c('router-view') }
-      },
-      children: [
-        {
-          path: '404',
-          name: 'Page404',
-          component: Page404
-        },
-        {
-          path: '500',
-          name: 'Page500',
-          component: Page500
-        },
-        {
-          path: 'login',
-          name: 'PageLogin',
-          component: Login
-        },
-        {
-          path: 'register',
-          name: 'PageSignUp',
-          component: SignUp
-        }
-      ]
-    }
+    // {
+    //   path: '/pages',
+    //   redirect: '/pages/404',
+    //   name: 'Pages',
+    //   component: {
+    //     render(c) { return c('router-view') }
+    //   },
+    //   children: [
+    //     {
+    //       path: '404',
+    //       name: 'Page404',
+    //       component: Page404
+    //     },
+    //     {
+    //       path: '500',
+    //       name: 'Page500',
+    //       component: Page500
+    //     },
+    //     {
+    //       path: 'login',
+    //       name: 'PageLogin',
+    //       component: Login
+    //     },
+    //     {
+    //       path: 'register',
+    //       name: 'PageSignUp',
+    //       component: SignUp
+    //     }
+    //   ]
+    // }
   ]
 }
 

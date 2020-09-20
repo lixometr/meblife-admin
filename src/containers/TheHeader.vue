@@ -18,6 +18,7 @@
         <CButton  @click="logout">
           Выйти
         </CButton>
+        
         <!-- <CHeaderNavLink to="/dashboard">
           Dashboard
         </CHeaderNavLink>
@@ -34,6 +35,7 @@
       </CHeaderNavItem>
     </CHeaderNav>
     <CHeaderNav class="mr-4">
+      <LanguageSelect />
       <!-- <CHeaderNavItem class="d-md-down-none mx-2">
         <CHeaderNavLink>
           <CIcon name="cil-bell"/>
@@ -59,11 +61,13 @@
 
 <script>
 import TheHeaderDropdownAccnt from './TheHeaderDropdownAccnt'
+import LanguageSelect from '@/components/LanguageSelect'
 
 export default {
   name: 'TheHeader',
   components: {
-    TheHeaderDropdownAccnt
+    TheHeaderDropdownAccnt,
+    LanguageSelect
   },
   methods: {
     logout() {

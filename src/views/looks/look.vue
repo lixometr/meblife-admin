@@ -75,7 +75,7 @@ export default {
         this.look = data;
       } else {
         const { data } = await this.$api.post("looks");
-        this.$router.push("/look/" + data._id);
+        this.$router.push({name: "Look", params: {id: data._id}});
         this.look = data;
       }
     } catch (err) {
@@ -111,7 +111,7 @@ export default {
           title: "Удалено!",
           type: "success",
         });
-        this.$router.push("/looks");
+        this.$router.push({name: "Looks"});
       } catch (err) {
         this.$error(err);
       }
