@@ -55,21 +55,7 @@ export default [
           },
         ]
       },
-      {
-        _name: "CSidebarNavDropdown",
-        name: "Локализация",
-        items: [
-          {
-            name: "Языки",
-            to: "/languages"
-          },
-          {
-            name: "Валюты",
-            to: "/currencies"
-          }
-        ]
 
-      },
       {
         _name: 'CSidebarNavItem',
         name: 'Страницы',
@@ -90,7 +76,21 @@ export default [
         name: 'CMS Группы модулей',
         to: '/module-groups',
       },
+      {
+        _name: "CSidebarNavDropdown",
+        name: "Локализация",
+        items: [
+          {
+            name: "Языки",
+            to: "/languages"
+          },
+          {
+            name: "Валюты",
+            to: "/currencies"
+          }
+        ]
 
+      },
       {
         _name: 'CSidebarNavItem',
         name: 'Настройки',

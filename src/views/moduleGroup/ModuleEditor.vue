@@ -93,7 +93,9 @@ const whatShow = {
   8: ["texts", "main_image"],
   16: ["title", "sub_title", "description", "module_images"],
   19: ["module_images"],
+  14: ["title", "sub_title", 'module_items'],
   15: ["title", "description"],
+
   21: ["title", "description"],
   22: ["module_images"],
   23: ["title", "sub_title", "module_images"],

@@ -263,7 +263,7 @@ function configRoutes() {
         {
           path: "looks",
           meta: {
-            label: 'Attributes'
+            label: 'Looks'
           },
           component: {
             render(c) { return c('router-view') }

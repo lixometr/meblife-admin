@@ -30,7 +30,7 @@
         </template>
         <template #image="{item}">
           <td>
-            <CImg width="300px" :src="item.image && item.image.url" />
+            <CImg width="150px" :src="item.image && item.image.url" />
           </td>
         </template>
       </CDataTable>

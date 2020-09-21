@@ -14,13 +14,17 @@
       <CCardBody>
         <TInput class="mb-5" label="Название" v-model="manufacturer.name" />
         <TInput class="mb-5" label="Slug" v-model="manufacturer.slug" />
-        <CRow class="mb-5" alignVertical="center">
-          <CCol :class="horizontal.label">Изображение</CCol>
-          <CCol :class="horizontal.input">
-            <ImageUpload width="150px" v-model="manufacturer.image.url" />
-          </CCol>
-        </CRow>
-        <TTextArea label="История" v-model="manufacturer.history" />
+
+        <EditImage label="Изображение" class="mb-5" width="150px" v-model="manufacturer.image.url" />
+        <EditImage
+          label="Изображение на фоне"
+          class="mb-5"
+          width="150px"
+          v-model="manufacturer.header_image.url"
+        />
+        <ModuleGroupSelect label="Группа модулей" class="mb-5" v-model="manufacturer.module_groups" />
+
+        <TTextArea class="mb-5" label="История" v-model="manufacturer.history" />
       </CCardBody>
     </CCard>
     <CButton color="success mb-2 w-100" @click="save">
@@ -34,20 +38,29 @@
 import TInput from "@/components/TInput";
 import TTextArea from "@/components/TTextArea";
 import NInput from "@/components/NInput";
-import ImageUpload from "@/components/ImageUpload";
+import EditImage from "@/components/EditImage";
+import ModuleGroupSelect from "@/components/ModuleGroupSelect";
 export default {
   components: {
     TInput,
     TTextArea,
     NInput,
-    ImageUpload,
+    EditImage,
+    ModuleGroupSelect,
   },
   props: {
     isNew: Boolean,
   },
   data() {
     return {
-      manufacturer: {},
+      manufacturer: {
+        name: [],
+        slug: [],
+        image: {},
+        description: [],
+        header_image: {},
+        history: [],
+      },
     };
   },
   computed: {
