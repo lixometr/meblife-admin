@@ -1,48 +1,49 @@
 <template>
   <div v-if="!$store.getters.isLoading">
-    <CButton color="primary" @click="$router.push({name: 'LookNew'})">
-      Добавить образ
-      <CIcon class="ml-1" name="cib-addthis" />
-    </CButton>
-    <CCardBody>
-      <CDataTable :items="looks" :fields="fields" border outlined striped>
-        <template #edit="{item}">
-          <td>
-            <div class="d-flex">
-              <CButton color="warning" @click="$router.push({name: 'Look', params: {id: item._id}})">
-                <CIcon name="cil-pencil"></CIcon>
-              </CButton>
-              <CButton color="danger" class="ml-2" @click="removeItem(item._id)">
-                <CIcon name="cil-trash"></CIcon>
-              </CButton>
-            </div>
-          </td>
-        </template>
+    <BtnAdd @click="$router.push({name: 'LookNew'})">Добавить образ</BtnAdd>
+    <AppPagination :pages="info.totalPages" :activePage.sync="activePage" />
 
-        <template #products="{item}">
-          <td>
-            <span
-              class="d-block"
-              v-for="product in item.products"
-              :key="product._id"
-            >{{product.full_name}}</span>
-          </td>
-        </template>
-        <template #image="{item}">
-          <td>
-            <CImg width="150px" :src="item.image && item.image.url" />
-          </td>
-        </template>
-      </CDataTable>
-    </CCardBody>
+    <CDataTable :items="items" :fields="fields" border outlined striped>
+      <template #edit="{item}">
+        <td>
+          <div class="d-flex">
+            <CButton color="warning" @click="$router.push({name: 'Look', params: {id: item._id}})">
+              <CIcon name="cil-pencil"></CIcon>
+            </CButton>
+            <CButton color="danger" class="ml-2" @click="removeItem(item._id)">
+              <CIcon name="cil-trash"></CIcon>
+            </CButton>
+          </div>
+        </td>
+      </template>
+
+      <template #products="{item}">
+        <td>
+          <span
+            class="d-block"
+            v-for="product in item.products"
+            :key="product._id"
+          >{{product.full_name}}</span>
+        </td>
+      </template>
+      <template #image="{item}">
+        <td>
+          <CImg width="150px" :src="item.image && item.image.url" />
+        </td>
+      </template>
+    </CDataTable>
   </div>
 </template>
 
 <script>
+import ItemsPage from "@/mixins/ItemsPage";
+
 export default {
+  mixins: [ItemsPage],
   data() {
     return {
-      looks: [],
+      fetchRoute: "looks",
+      removeRoute: "lookById",
       fields: [
         {
           key: "image",
@@ -59,36 +60,8 @@ export default {
       ],
     };
   },
-  async created() {
-    this.fetchItems();
-  },
-  methods: {
-    async fetchItems() {
-      this.$loading.start();
-      try {
-        const { data: looks } = await this.$api.get("looks");
-        this.looks = looks;
-      } catch (err) {
-        this.$error(err);
-      }
-      this.$loading.stop();
-    },
-    async removeItem(id) {
-      try {
-        const { data: attributes } = await this.$api.delete("lookById", {
-          id,
-        });
-        this.$notify({
-          group: "main",
-          type: "success",
-          title: "Удалено!",
-        });
-        this.fetchItems();
-      } catch (err) {
-        this.$error(err);
-      }
-    },
-  },
+
+  methods: {},
 };
 </script>
 

@@ -1,9 +1,7 @@
 <template>
   <div v-if="!$store.getters.isLoading">
     <CCard>
-      <CCardHeader>
-        Поиск
-      </CCardHeader>
+      <CCardHeader>Поиск</CCardHeader>
       <CCardBody>
         <h6>Название</h6>
         <CInput v-model="searchPhrase" />
@@ -13,11 +11,15 @@
       Добавить группу модулей
       <CIcon class="ml-1" name="cib-addthis" />
     </CButton>
-    <CDataTable class="mt-3" :items="moduleGroups" :fields="fields" border outlined striped>
+    <CPagination align="end" :pages="info.totalPages" :activePage.sync="activePage" />
+    <CDataTable class="mt-3" :items="items" :fields="fields" border outlined striped>
       <template #edit="{item}">
         <td>
           <div class="d-flex">
-            <CButton color="warning" @click="$router.push({name: 'ModuleGroup', params: {id: item._id}})">
+            <CButton
+              color="warning"
+              @click="$router.push({name: 'ModuleGroup', params: {id: item._id}})"
+            >
               <CIcon name="cil-pencil"></CIcon>
             </CButton>
             <CButton color="danger" class="ml-2" @click="removeItem(item._id)">
@@ -37,11 +39,13 @@
 </template>
 
 <script>
+import ItemsPage from "@/mixins/ItemsPage";
 export default {
+  mixins: [ItemsPage],
   data() {
     return {
-      searchPhrase: "",
-      moduleGroups: [],
+      fetchRoute: 'moduleGroupsSearch',
+      removeRoute: 'moduleGroupById',
       fields: [
         {
           key: "name",
@@ -58,50 +62,13 @@ export default {
       ],
     };
   },
-  async created() {
-    this.$loading.start();
-    await this.fetchItems();
-    this.$loading.stop();
-  },
-  methods: {
-    async fetchItems() {
-      try {
-        let moduleGroups = [];
-        if (this.searchPhrase) {
-          const { data: items } = await this.$api.get("moduleGroupsSearch", {
-            text: this.searchPhrase,
-          });
-          moduleGroups = items;
-        } else {
-          const { data: items } = await this.$api.get("moduleGroups");
-          moduleGroups = items;
-        }
 
-        this.moduleGroups = moduleGroups;
-      } catch (err) {
-        this.$error(err);
-      }
-    },
-    async removeItem(id) {
-      try {
-        const { data: attributes } = await this.$api.delete("moduleGroupById", {
-          id,
-        });
-        this.$notify({
-          group: "main",
-          type: "success",
-          title: "Удалено!",
-        });
-        this.fetchItems();
-      } catch (err) {
-        this.$error(err);
-      }
-    },
+  methods: {
+   
+   
   },
   watch: {
-    searchPhrase() {
-      this.fetchItems();
-    },
+   
   },
 };
 </script>

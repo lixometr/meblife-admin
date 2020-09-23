@@ -34,10 +34,10 @@ export default {
       const { data: item } = await this.$api.get("moduleGroupById", { id });
       return item;
     },
-    async searchItem(text) {
+    async searchItem(text, options) {
       const { data: items } = await this.$api.get("moduleGroupsSearch", {
         text,
-      });
+      }, {params: options});
       return items;
     },
   },

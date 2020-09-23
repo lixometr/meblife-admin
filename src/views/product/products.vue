@@ -23,13 +23,12 @@
       </CCardBody>
     </CCard>
 
-    <CButton color="primary" @click="$router.push({name: 'ProductNew'})">
-      Добавить товар
-      <CIcon class="ml-1" name="cib-addthis" />
-    </CButton>
+    <BtnAdd @click="$router.push({name: 'ProductNew'})">Добавить товар</BtnAdd>
+
     <CCardBody>
+      <AppPagination align="end" :activePage.sync="activePage" :pages="info.totalPages" />
       <CDataTable
-        :items="products"
+        :items="items"
         :fields="fields"
         :pagination="true"
         :itemsPerPage="10"
@@ -40,7 +39,11 @@
         <template #edit="{item}">
           <td>
             <div class="d-flex">
-              <CButton color="warning" class="mr-2" @click="$router.push({name: 'Product', params: {id: item._id}})">
+              <CButton
+                color="warning"
+                class="mr-2"
+                @click="$router.push({name: 'Product', params: {id: item._id}})"
+              >
                 <CIcon name="cil-pencil"></CIcon>
               </CButton>
               <CButton color="danger" @click="removeItem(item._id)">
@@ -90,10 +93,12 @@
 <script>
 import ManufacturerSelect from "@/components/ManufacturerSelect";
 import CategorySelect from "@/components/CategorySelect";
+import ItemsPage from "@/mixins/ItemsPage";
+
 export default {
+  mixins: [ItemsPage],
   data() {
     return {
-      products: [],
       // selectedItems: {},
       filters: {},
       fields: [
@@ -166,6 +171,9 @@ export default {
       filters.sort_by = this.filters.sort_by;
       return filters;
     },
+    totalPages() {
+      return this.info.totalPages;
+    },
   },
   methods: {
     async fetchItems() {
@@ -176,7 +184,7 @@ export default {
       };
       jsonFilters = JSON.stringify(jsonFilters);
       try {
-        let products = [];
+        let products = {};
         if (filters.category) {
           const { data } = await this.$api.get(
             "categoryProducts",
@@ -186,20 +194,23 @@ export default {
             {
               params: {
                 filters: jsonFilters,
+                page: this.activePage,
               },
             }
           );
-          products = data.products;
+          products = data;
         } else {
           const { data } = await this.$api.get("products", null, {
             params: {
               filters: jsonFilters,
+              page: this.activePage,
             },
           });
-          products = data.products;
+          products = data;
         }
+        this.setData(products);
 
-        this.products = products;
+        this.activePage = products.info.nowPage;
       } catch (err) {
         this.$error(err);
       }
@@ -243,6 +254,7 @@ export default {
     },
   },
   watch: {
+  
     filters: {
       deep: true,
       handler() {

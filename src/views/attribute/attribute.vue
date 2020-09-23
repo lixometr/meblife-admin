@@ -52,7 +52,7 @@
       </CCardBody>
     </CCard>
 
-    <CButton color="success mb-2 w-100" @click="save"><CIcon name="cil-save" /> Сохранить</CButton>
+    <BtnSave @click="save">Сохранить</BtnSave>
     <CButton color="danger" @click="onDelete">Удалить</CButton>
   </div>
 </template>
@@ -117,7 +117,7 @@ export default {
         await this.fetchValues();
       } else {
         const { data } = await this.$api.post("attributes");
-        this.$router.push({name: "Attribute", params: {id: data._id}});
+        this.$router.push({ name: "Attribute", params: { id: data._id } });
         this.attribute = data;
       }
     } catch (err) {
@@ -189,7 +189,7 @@ export default {
           title: "Удалено!",
           type: "success",
         });
-        this.$router.push({name: "Attributes"});
+        this.$router.push({ name: "Attributes" });
       } catch (err) {
         this.$error(err);
       }

@@ -34,8 +34,8 @@ export default {
       const { data: item } = await this.$api.get("attributeById", { id });
       return item;
     },
-    async searchItem(text) {
-      const { data: items } = await this.$api.get("attributesSearch", {text});
+    async searchItem(text, options) {
+      const { data: items } = await this.$api.get("attributesSearch", {text}, {params: options});
       return items
     },
     add() {

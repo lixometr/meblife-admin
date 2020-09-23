@@ -1,15 +1,24 @@
 <template>
   <div v-if="!$store.getters.isLoading">
-    <CButton color="primary" @click="$router.push({name: 'CategoryNew'})">
-      Добавить категорию
-      <CIcon class="ml-1" name="cib-addthis" />
-    </CButton>
+    <CCard>
+      <CCardHeader>Поиск</CCardHeader>
+      <CCardBody>
+        <h6>Название</h6>
+        <CInput v-model="searchPhrase" />
+      </CCardBody>
+    </CCard>
+    <BtnAdd @click="$router.push({name: 'CategoryNew'})">Добавить категорию</BtnAdd>
+    <AppPagination :pages="info.totalPages" :activePage.sync="activePage" />
+
     <CCardBody>
-      <CDataTable :items="categories" :fields="fields" border outlined striped>
+      <CDataTable :items="items" :fields="fields" border outlined striped>
         <template #edit="{item}">
           <td>
             <div class="d-flex">
-              <CButton color="warning" @click="$router.push({name: 'Category', params: {id: item._id}})">
+              <CButton
+                color="warning"
+                @click="$router.push({name: 'Category', params: {id: item._id}})"
+              >
                 <CIcon name="cil-pencil"></CIcon>
               </CButton>
               <CButton color="danger" class="ml-2" @click="removeItem(item._id)">
@@ -30,10 +39,14 @@
 </template>
 
 <script>
+import ItemsPage from "@/mixins/ItemsPage";
+
 export default {
+  mixins: [ItemsPage],
   data() {
     return {
-      categories: [],
+      fetchRoute: "categoriesSearch",
+      removeRoute: "categoryById",
       fields: [
         {
           key: "name",
@@ -55,39 +68,8 @@ export default {
       ],
     };
   },
-  async created() {
-    this.fetchItems();
-  },
-  methods: {
-    async fetchItems() {
-      this.$loading.start();
-      try {
-        const { data: categories } = await this.$api.get("categories");
-        this.categories = categories;
-      } catch (err) {
-        this.$error(err);
-      }
-      this.$loading.stop();
-    },
-    async removeItem(id) {
-      try {
-        const { data: attributes } = await this.$api.delete(
-          "categoryById",
-          {
-            id,
-          }
-        );
-        this.$notify({
-          group: "main",
-          type: "success",
-          title: "Удалено!",
-        });
-        this.fetchItems();
-      } catch (err) {
-        this.$error(err);
-      }
-    },
-  },
+
+  methods: {},
 };
 </script>
 

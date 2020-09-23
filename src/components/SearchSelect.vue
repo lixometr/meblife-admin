@@ -23,6 +23,10 @@
         </slot>
       </template>
       <template #list-footer>
+        <div class="d-flex pt-3" v-if="itemsInfo.totalPages > 1">
+          <CButton class="flex-1" color="secondary" @click="prevPage">Назад</CButton>
+          <CButton class="flex-1" color="secondary" @click="nextPage">Вперед</CButton>
+        </div>
         <slot name="list-footer"></slot>
       </template>
     </v-select>
@@ -53,6 +57,8 @@ export default {
     return {
       options: [],
       selectValues: [],
+      itemsInfo: {},
+      page: 1,
     };
   },
   created() {
@@ -64,13 +70,36 @@ export default {
     },
   },
   methods: {
+    prevPage() {
+      if (this.page <= 1) {
+        this.page = 1;
+        return;
+      }
+      this.page--;
+      this.onOpen();
+    },
+    nextPage() {
+      if (this.page >= this.itemsInfo.totalPages) {
+        this.page = this.itemsInfo.totalPages;
+        return;
+      }
+      this.page++;
+      this.onOpen();
+    },
     async onSearch(text, loading) {
       loading(true);
-      this.options = await this.searchItem(text);
+      const data = await this.searchItem(text, { per_page: 1000 });
+      this.options = data.items;
+      this.itemsInfo = data.info;
+      this.page = this.itemsInfo.nowPage;
       loading(false);
     },
+
     async onOpen() {
-      this.options = await this.searchItem("");
+      const data = await this.searchItem("", { per_page: 1000 });
+      this.itemsInfo = data.info;
+
+      this.options = data.items;
     },
     onChange(value) {
       let values;
@@ -87,9 +116,9 @@ export default {
     },
     async loadItems() {
       if (!this.value) {
-        this.selectValues = this.value
-        return
-      };
+        this.selectValues = this.value;
+        return;
+      }
       try {
         if (this.multiple) {
           const resolvers = this.value.map(this.findItem);

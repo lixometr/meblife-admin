@@ -1,41 +1,51 @@
 <template>
   <div v-if="!$store.getters.isLoading">
-    <CButton color="primary" @click="$router.push({name: 'ManufacturerNew'})">
+    <CCard>
+      <CCardHeader>Поиск</CCardHeader>
+      <CCardBody>
+        <h6>Название</h6>
+        <CInput v-model="searchPhrase" />
+      </CCardBody>
+    </CCard>
+    <BtnAdd color="primary" @click="$router.push({name: 'ManufacturerNew'})">
       Добавить производителя
-      <CIcon class="ml-1" name="cib-addthis" />
-    </CButton>
-    <CCardBody>
-      <CDataTable :items="manufacturers" :fields="fields" border outlined striped>
-        <template #edit="{item}">
-          <td>
-            <div class="d-flex">
-              <CButton color="warning" @click="$router.push({name: 'Manufacturer', params: {id: item._id}})">
-                <CIcon name="cil-pencil"></CIcon>
-              </CButton>
-              <CButton color="danger" class="ml-2" @click="removeItem(item._id)">
-                <CIcon name="cil-trash"></CIcon>
-              </CButton>
-            </div>
-          </td>
-        </template>
+    </BtnAdd>
+    <AppPagination align="end" :activePage.sync="activePage" :pages="info.totalPages" />
+    <CDataTable :items="items" :fields="fields" border outlined striped>
+      <template #edit="{item}">
+        <td>
+          <div class="d-flex">
+            <CButton
+              color="warning"
+              @click="$router.push({name: 'Manufacturer', params: {id: item._id}})"
+            >
+              <CIcon name="cil-pencil"></CIcon>
+            </CButton>
+            <CButton color="danger" class="ml-2" @click="removeItem(item._id)">
+              <CIcon name="cil-trash"></CIcon>
+            </CButton>
+          </div>
+        </td>
+      </template>
 
-        <template #image="{item}">
-          <td>
-            <CImg :src="item.image.url" width="150px" />
-          </td>
-        </template>
-      </CDataTable>
-    </CCardBody>
+      <template #image="{item}">
+        <td>
+          <CImg :src="item.image.url" width="150px" />
+        </td>
+      </template>
+    </CDataTable>
   </div>
 </template>
 
 <script>
+import ItemsPage from "@/mixins/ItemsPage";
+
 export default {
   data() {
     return {
-      manufacturers: [],
+      fetchRoute: "manufacturersSearch",
+      removeRoute: "manufacturerById",
       fields: [
-        
         {
           key: "name",
           label: "Название",
@@ -49,41 +59,15 @@ export default {
         },
         {
           key: "edit",
-          label: "Действия"
+          label: "Действия",
         },
       ],
     };
   },
-  async created() {
-    this.fetchItems();
-  },
-  methods: {
-    async fetchItems() {
-      this.$loading.start();
-      try {
-        const { data: manufacturers } = await this.$api.get("manufacturers");
-        this.manufacturers = manufacturers;
-      } catch (err) {
-        this.$error(err);
-      }
-      this.$loading.stop();
-    },
-    async removeItem(id) {
-      try {
-        const { data: attributes } = await this.$api.delete("manufacturerById", {
-          id,
-        });
-        this.$notify({
-          group: "main",
-          type: "success",
-          title: "Удалено!",
-        });
-        this.fetchItems();
-      } catch (err) {
-        this.$error(err);
-      }
-    },
-  },
+  mixins: [ItemsPage],
+
+  methods: {},
+  watch: {},
 };
 </script>
 

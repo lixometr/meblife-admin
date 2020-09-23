@@ -1,41 +1,48 @@
 <template>
   <div v-if="!$store.getters.isLoading">
-    <CButton color="primary" @click="$router.push({name: 'PageNew'})">
-      Добавить страницу
-      <CIcon class="ml-1" name="cib-addthis" />
-    </CButton>
-    <CCardBody>
-      <CDataTable :items="pages" :fields="fields" border outlined striped>
-        <template #edit="{item}">
-          <td>
-            <div class="d-flex">
-              <CButton color="warning" @click="$router.push({name: 'Page', params: {id: item._id}})">
-                <CIcon name="cil-pencil"></CIcon>
-              </CButton>
-              <CButton color="danger" class="ml-2" @click="removeItem(item._id)">
-                <CIcon name="cil-trash"></CIcon>
-              </CButton>
-            </div>
-          </td>
-        </template>
+    <CCard>
+      <CCardHeader>Поиск</CCardHeader>
+      <CCardBody>
+        <h6>Название</h6>
+        <CInput v-model="searchPhrase" />
+      </CCardBody>
+    </CCard>
+    <BtnAdd @click="$router.push({name: 'PageNew'})">Добавить страницу</BtnAdd>
+    <AppPagination :pages="info.totalPages" :activePage.sync="activePage" />
 
-        <template #header_image="{item}">
-          <td>
-            <CImg :src="item.header_image.url" width="150px" />
-          </td>
-        </template>
-      </CDataTable>
-    </CCardBody>
+    <CDataTable :items="items" :fields="fields" border outlined striped>
+      <template #edit="{item}">
+        <td>
+          <div class="d-flex">
+            <CButton color="warning" @click="$router.push({name: 'Page', params: {id: item._id}})">
+              <CIcon name="cil-pencil"></CIcon>
+            </CButton>
+            <CButton color="danger" class="ml-2" @click="removeItem(item._id)">
+              <CIcon name="cil-trash"></CIcon>
+            </CButton>
+          </div>
+        </td>
+      </template>
+
+      <template #header_image="{item}">
+        <td>
+          <CImg :src="item.header_image.url" width="150px" />
+        </td>
+      </template>
+    </CDataTable>
   </div>
 </template>
 
 <script>
+import ItemsPage from "@/mixins/ItemsPage";
+
 export default {
+  mixins: [ItemsPage],
   data() {
     return {
-      pages: [],
+      fetchRoute: "pagesSearch",
+      removeRoute: "pageById",
       fields: [
-        
         {
           key: "name",
           label: "Название",
@@ -49,41 +56,13 @@ export default {
         },
         {
           key: "edit",
-          label: "Действия"
+          label: "Действия",
         },
       ],
     };
   },
-  async created() {
-    this.fetchItems();
-  },
-  methods: {
-    async fetchItems() {
-      this.$loading.start();
-      try {
-        const { data: pages } = await this.$api.get("pages");
-        this.pages = pages;
-      } catch (err) {
-        this.$error(err);
-      }
-      this.$loading.stop();
-    },
-    async removeItem(id) {
-      try {
-        const { data: attributes } = await this.$api.delete("pageById", {
-          id,
-        });
-        this.$notify({
-          group: "main",
-          type: "success",
-          title: "Удалено!",
-        });
-        this.fetchItems();
-      } catch (err) {
-        this.$error(err);
-      }
-    },
-  },
+
+  methods: {},
 };
 </script>
 

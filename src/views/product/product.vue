@@ -182,9 +182,7 @@
 
     <ProductAttributesModal v-model="product.attributes" />
 
-    <CButton color="success w-100" @click="save">
-      <CIcon name="cil-save" />Сохранить
-    </CButton>
+    <BtnSave @click="save">Сохранить</BtnSave>
     <CButton color="danger mt-2 mb-4" @click="onDelete">Удалить</CButton>
   </div>
 </template>
@@ -240,7 +238,7 @@ export default {
         this.setProduct(data);
       } else {
         const { data } = await this.$api.post("products");
-        this.$router.push({name: "Product", params: {id: data._id}});
+        this.$router.push({ name: "Product", params: { id: data._id } });
         this.product = data;
       }
     } catch (err) {
@@ -298,7 +296,7 @@ export default {
           title: "Удалено!",
           type: "success",
         });
-        this.$router.push({name: "Products"});
+        this.$router.push({ name: "Products" });
       } catch (err) {
         this.$error(err);
       }

@@ -59,9 +59,7 @@
       </CCardBody>
     </CCard>
 
-    <CButton color="success mb-2 w-100" @click="save">
-      <CIcon name="cil-save" />Сохранить
-    </CButton>
+    <BtnSave @click="save">Сохранить</BtnSave>
     <CButton color="danger mb-3" @click="onDelete">Удалить</CButton>
   </div>
 </template>

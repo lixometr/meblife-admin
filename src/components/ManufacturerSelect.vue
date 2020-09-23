@@ -23,6 +23,7 @@ export default {
     inputClass: [String, Array,Object],
     multiple: Boolean,
   },
+
   components: {
     SearchSelect,
   },
@@ -31,11 +32,13 @@ export default {
       const { data: item } = await this.$api.get("manufacturerById", { id });
       return item;
     },
-    async searchItem(text) {
-      const { data: items } = await this.$api.get("manufacturersSearch", {
+    async searchItem(text, options) {
+      const { data } = await this.$api.get("manufacturersSearch", {
         text,
+      }, {
+        params: options
       });
-      return items;
+      return data;
     },
   },
 };

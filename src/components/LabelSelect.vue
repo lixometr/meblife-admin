@@ -35,8 +35,8 @@ export default {
       const { data: item } = await this.$api.get("labelById", { id });
       return item;
     },
-    async searchItem(text) {
-      const { data: items } = await this.$api.get("labelsSearch", {text});
+    async searchItem(text, options) {
+      const { data: items } = await this.$api.get("labelsSearch", {text}, {params: options});
       return items
     },
     add() {

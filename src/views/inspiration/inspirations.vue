@@ -1,11 +1,17 @@
 <template>
   <div v-if="!$store.getters.isLoading">
-    <CButton color="primary" @click="$router.push({name: 'InspirationNew'})">
-      Добавить вдохновение
-      <CIcon class="ml-1" name="cib-addthis" />
-    </CButton>
+    <CCard>
+      <CCardHeader>Поиск</CCardHeader>
+      <CCardBody>
+        <h6>Название</h6>
+        <CInput v-model="searchPhrase" />
+      </CCardBody>
+    </CCard>
+    <BtnAdd @click="$router.push({name: 'InspirationNew'})">Добавить вдохновение</BtnAdd>
+    <AppPagination :pages="info.totalPages" :activePage.sync="activePage" />
+
     <CCardBody>
-      <CDataTable :items="inspirations" :fields="fields" border outlined striped>
+      <CDataTable :items="items" :fields="fields" border outlined striped>
         <template #edit="{item}">
           <td>
             <div class="d-flex">
@@ -33,10 +39,14 @@
 </template>
 
 <script>
+import ItemsPage from "@/mixins/ItemsPage";
+
 export default {
+  mixins: [ItemsPage],
   data() {
     return {
-      inspirations: [],
+      fetchRoute: "inspirationsSearch",
+      removeRoute: "inspirationById",
       fields: [
         {
           key: "name",
@@ -56,36 +66,8 @@ export default {
       ],
     };
   },
-  async created() {
-    this.fetchItems();
-  },
-  methods: {
-    async fetchItems() {
-      this.$loading.start();
-      try {
-        const { data: inspirations } = await this.$api.get("inspirations");
-        this.inspirations = inspirations;
-      } catch (err) {
-        this.$error(err);
-      }
-      this.$loading.stop();
-    },
-    async removeItem(id) {
-      try {
-        const { data: attributes } = await this.$api.delete("inspirationById", {
-          id,
-        });
-        this.$notify({
-          group: "main",
-          type: "success",
-          title: "Удалено!",
-        });
-        this.fetchItems();
-      } catch (err) {
-        this.$error(err);
-      }
-    },
-  },
+
+  methods: {},
 };
 </script>
 

@@ -36,10 +36,10 @@ export default {
       const { data: item } = await this.$api.get("attributeValueById", { id });
       return item;
     },
-    async searchItem(text) {
+    async searchItem(text, options) {
       const { data: items } = await this.$api.get("attributeByIdValues", {
         id: this.attributeId,
-      });
+      }, {params: options});
       return items;
     },
     addValue() {

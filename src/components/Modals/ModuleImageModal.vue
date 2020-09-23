@@ -31,7 +31,9 @@ const whatShow = {
   16: ['title', 'image'],
   19: ['title', 'sub_title', 'description', 'image'],
   22: ['title', 'sub_title', 'image'],
-  23: ['title']
+  23: ['title'],
+  26: ['title', 'sub_title',  'more_btn', 'more_btn_url', 'image'],
+  28: ['title', 'more_btn_url']
 }
 export default {
   props: {

@@ -1,33 +1,42 @@
 <template>
   <div v-if="!$store.getters.isLoading">
-    <CButton color="primary" @click="$router.push({name: 'AttributeNew'})">
-      Добавить атрибут
-      <CIcon class="ml-1" name="cib-addthis" />
-    </CButton>
-    <CCardBody>
-      <CDataTable :items="attributes" :fields="fields" border outlined striped>
-        <template #edit="{item}">
-          <td>
-            <div class="d-flex">
-              <CButton color="warning" @click="$router.push({name: 'Attribute', params: {id: item._id}})">
-                <CIcon name="cil-pencil"></CIcon>
-              </CButton>
-              <CButton color="danger" class="ml-2" @click="removeItem(item._id)">
-                <CIcon name="cil-trash"></CIcon>
-              </CButton>
-            </div>
-          </td>
-        </template>
-      </CDataTable>
-    </CCardBody>
+    <CCard>
+      <CCardHeader>Поиск</CCardHeader>
+      <CCardBody>
+        <h6>Название</h6>
+        <CInput v-model="searchPhrase" />
+      </CCardBody>
+    </CCard>
+    <BtnAdd @click="$router.push({name: 'AttributeNew'})">Добавить атрибут</BtnAdd>
+    <AppPagination :pages="info.totalPages" :activePage.sync="activePage" />
+
+    <CDataTable :items="items" :fields="fields" border outlined striped>
+      <template #edit="{item}">
+        <td>
+          <div class="d-flex">
+            <CButton
+              color="warning"
+              @click="$router.push({name: 'Attribute', params: {id: item._id}})"
+            >
+              <CIcon name="cil-pencil"></CIcon>
+            </CButton>
+            <CButton color="danger" class="ml-2" @click="removeItem(item._id)">
+              <CIcon name="cil-trash"></CIcon>
+            </CButton>
+          </div>
+        </td>
+      </template>
+    </CDataTable>
   </div>
 </template>
 
 <script>
+import ItemsPage from "@/mixins/ItemsPage";
 export default {
   data() {
     return {
-      attributes: [],
+      fetchRoute: "attributesSearch",
+      removeRoute: "attributeById",
       fields: [
         {
           key: "name",
@@ -46,36 +55,9 @@ export default {
       ],
     };
   },
-  async created() {
-    this.fetchItems();
-  },
-  methods: {
-    async fetchItems() {
-      this.$loading.start();
-      try {
-        const { data: attributes } = await this.$api.get("attributes");
-        this.attributes = attributes;
-      } catch (err) {
-        this.$error(err);
-      }
-      this.$loading.stop();
-    },
-    async removeItem(id) {
-      try {
-        const { data: attributes } = await this.$api.delete("attributeById", {
-          id,
-        });
-        this.$notify({
-          group: "main",
-          type: "success",
-          title: "Удалено!",
-        });
-        this.fetchItems();
-      } catch (err) {
-        this.$error(err);
-      }
-    },
-  },
+  mixins: [ItemsPage],
+
+  methods: {},
 };
 </script>
 

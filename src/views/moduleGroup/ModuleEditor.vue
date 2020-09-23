@@ -6,7 +6,7 @@
         <CImg block :style="{maxWidth: '100%'}" :src="moduleScreen" />
       </CCardBody>
     </CCard>
-    <CCard v-if="shouldShow('main_image') || shouldShow('module_items')">
+    <CCard v-if="shouldShow('main_image') || shouldShow('module_items') || shouldShow('show_type')">
       <CCardHeader>Редактировать модуль</CCardHeader>
       <CCardBody>
         <EditImage
@@ -19,6 +19,15 @@
           v-model="appModule.module_items"
           v-if="shouldShow('module_items')"
         />
+        <Label class="mt-4" label="Тип отображения" v-if="shouldShow('show_type')">
+          <v-select
+            :multiple="false"
+            v-model="appModule.show_type"
+            :options="showTypeOptions"
+            :reduce="item => item.value"
+            label="label"
+          ></v-select>
+        </Label>
       </CCardBody>
     </CCard>
     <CCard
@@ -76,9 +85,9 @@
       </CCardBody>
     </CCard>
 
-    <CButton color="success mb-2 w-100" @click="save">
-      <CIcon name="cil-save" />Сохранить
-    </CButton>
+    <BtnSave  @click="save">
+    Сохранить
+    </BtnSave>
     <CButton color="danger" class="mb-2" @click="onDelete">Удалить</CButton>
   </div>
 </template>
@@ -89,17 +98,34 @@ import TTextArea from "@/components/TTextArea";
 import ProductAndCategorySelect from "@/components/ProductAndCategorySelect";
 import ModuleImageEditor from "@/components/Modules/ModuleImageEditor";
 const whatShow = {
-  3: ["texts", "main_image", "module_items"],
-  8: ["texts", "main_image"],
+  1: ["texts", "main_image", "module_items", "show_type"],
+  3: ["texts", "main_image", "module_items", "show_type"],
+  8: ["texts", "main_image", "show_type"],
   16: ["title", "sub_title", "description", "module_images"],
   19: ["module_images"],
-  14: ["title", "sub_title", 'module_items'],
+  14: ["title", "sub_title", "module_items"],
   15: ["title", "description"],
 
   21: ["title", "description"],
   22: ["module_images"],
   23: ["title", "sub_title", "module_images"],
+  26: [ 'module_images',],
+  28: ["title", "module_images"],
   35: ["title"],
+};
+const showTypes = {
+  1: [
+    { label: "Нормальный", value: "" },
+    { label: "Перевернутый", value: "reverse" },
+  ],
+  3: [
+    { label: "Нормальный", value: "" },
+    { label: "Перевернутый", value: "reverse" },
+  ],
+  8: [
+    { label: "Нормальный", value: "" },
+    { label: "Перевернутый", value: "reverse" },
+  ],
 };
 export default {
   props: {
@@ -137,6 +163,9 @@ export default {
     this.$loading.stop();
   },
   computed: {
+    showTypeOptions() {
+      return showTypes[this.moduleNumber]
+    },
     showOpts() {
       return whatShow[this.moduleNumber] || [];
     },
@@ -165,7 +194,7 @@ export default {
     },
     moduleNumber() {
       if (this.isNew) {
-        return this.$route.query.module_id;
+        return this.$route.query.module_id.toString();
       } else {
         return this.appModule.module_id.toString();
       }
@@ -207,7 +236,7 @@ export default {
             { id: this.moduleGroupId },
             this.moduleGroup
           );
-   
+
           this.$router.push({
             name: "ModuleGroupEditor",
             params: { id: this.moduleGroupId, module_id: data._id },

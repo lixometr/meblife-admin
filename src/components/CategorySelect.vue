@@ -46,8 +46,8 @@ export default {
       parents.pop();
       return { ...category, parents };
     },
-    async searchItem(text) {
-      const { data: categories } = await this.$api.get("categoriesSearch", {text});
+    async searchItem(text, options) {
+      const { data: categories } = await this.$api.get("categoriesSearch", {text}, {params: options});
       return categories
     },
   },

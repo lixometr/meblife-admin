@@ -22,14 +22,17 @@
           width="150px"
           v-model="manufacturer.header_image.url"
         />
-        <ModuleGroupSelect label="Группа модулей" class="mb-5" v-model="manufacturer.module_groups" />
+        <ModuleGroupSelect
+          label="Группа модулей"
+          class="mb-5"
+          v-model="manufacturer.module_groups"
+        />
 
         <TTextArea class="mb-5" label="История" v-model="manufacturer.history" />
+        <TTextArea class="mb-5" label="Видео" v-model="manufacturer.videos" />
       </CCardBody>
     </CCard>
-    <CButton color="success mb-2 w-100" @click="save">
-      <CIcon name="cil-save" />Сохранить
-    </CButton>
+    <BtnSave  @click="save">Сохранить</BtnSave>
     <CButton color="danger" class="mb-2" @click="onDelete">Удалить</CButton>
   </div>
 </template>
@@ -60,6 +63,7 @@ export default {
         description: [],
         header_image: {},
         history: [],
+        videos: [],
       },
     };
   },

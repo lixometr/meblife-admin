@@ -47,11 +47,9 @@ export default {
       const { data: item } = await this.$api.get("attributeGroupById", { id });
       return item;
     },
-    async searchItem(text) {
-      const { data: items } = await this.$api.get("attributeGroups");
-      return items.filter(
-        (item) => item.name.toLowerCase().indexOf(text.toLowerCase()) > -1
-      );
+    async searchItem(text, options) {
+      const { data } = await this.$api.get("attributeGroupsSearch", {text}, {params: options});
+      return data
     },
   },
 };
