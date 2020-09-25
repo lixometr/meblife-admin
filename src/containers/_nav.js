@@ -53,6 +53,10 @@ export default [
             name: "Категории",
             to: "/categories"
           },
+          {
+            name: "Флаги",
+            to: "/labels"
+          },
         ]
       },
 
@@ -87,6 +91,10 @@ export default [
           {
             name: "Валюты",
             to: "/currencies"
+          },
+          {
+            name: "Переводы",
+            to: "/translations"
           }
         ]
 

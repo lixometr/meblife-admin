@@ -90,6 +90,12 @@ const ModuleEditor = () => import("@/views/moduleGroup/ModuleEditor")
 const Pages = () => import("@/views/page/pages")
 const Page = () => import("@/views/page/page")
 
+const Translations = () => import("@/views/translations/translations")
+
+const Labels = () => import("@/views/label/labels")
+const Label = () => import("@/views/label/label")
+
+
 Vue.use(Router)
 const router = new Router({
   mode: 'history', // https://router.vuejs.org/api/#mode
@@ -246,6 +252,36 @@ function configRoutes() {
           ]
         },
         {
+          path: "labels",
+          meta: {
+            label: 'Labels'
+          },
+          component: {
+            render(c) { return c('router-view') }
+          },
+          children: [
+            {
+              path: '',
+              component: Labels,
+              name: "Labels",
+
+            },
+            {
+              name: "LabelNew",
+              path: "new",
+              component: Label,
+              props: {
+                isNew: true
+              }
+            },
+            {
+              name: "Label",
+              path: ":id",
+              component: Label,
+            },
+          ]
+        },
+        {
           name: "Languages",
           path: "languages",
           component: Languages,
@@ -387,7 +423,7 @@ function configRoutes() {
           children: [
             {
               name: "Pages",
-              component:  Pages,
+              component: Pages,
 
               path: '',
             },
@@ -402,9 +438,17 @@ function configRoutes() {
             {
               name: "Page",
               path: ":id",
-              component:  Page,
+              component: Page,
             },
           ]
+        },
+        {
+          path: "translations",
+          meta: {
+            label: 'Translations'
+          },
+          component: Translations,
+
         },
 
 

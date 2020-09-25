@@ -33,6 +33,7 @@ import {
 } from '@coreui/icons'
 import {
   cilArrowRight,
+  cilArrowCircleBottom,
   cilBan,
   cilBasket,
   cilBell,
@@ -91,6 +92,7 @@ export const iconsSet = Object.assign(
   { logo },
   {
     cilArrowRight,
+    cilArrowCircleBottom,
     cilBan,
     cilBasket,
     cilBell,

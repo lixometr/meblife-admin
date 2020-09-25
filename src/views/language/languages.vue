@@ -32,7 +32,9 @@
 </template>
 
 <script>
+import ItemsPage from "@/mixins/ItemsPage";
 export default {
+  // mixins: [ItemsPage],
   data() {
     return {
       languages: [],
@@ -54,8 +56,8 @@ export default {
   async created() {
     this.$loading.start();
     try {
-      const { data: languages } = await this.$api.get("languages");
-      this.languages = languages;
+      const { data } = await this.$api.get("languages");
+      this.languages = data;
     } catch (err) {
       this.$error(err);
     }
