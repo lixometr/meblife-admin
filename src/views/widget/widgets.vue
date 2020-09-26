@@ -1,12 +1,12 @@
 <template>
   <div v-if="!$store.getters.isLoading">
-    <CCard>
+    <!-- <CCard>
       <CCardHeader>Поиск</CCardHeader>
       <CCardBody>
         <h6>Название</h6>
         <CInput v-model="searchPhrase" />
       </CCardBody>
-    </CCard>
+    </CCard> -->
 
     <!-- <AppPagination
       align="end"
@@ -49,6 +49,11 @@ export default {
           label: "Главная страница",
           routeName: "WidgetMainPage",
         },
+        {
+          slug: "top_bar",
+          label: "Верхняя панель",
+          routeName: "WidgetTopBar",
+        },
       ],
       fields: [
         {
@@ -71,6 +76,7 @@ export default {
 
   methods: {
     async fetchItems() {
+      return
       try {
         const resolvers = this.widgets.map(async (widget) => {
           const { data: response } = await this.$api.get("widgetByName", {

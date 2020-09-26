@@ -16,12 +16,12 @@
         <TInput class="mb-5" label="Slug" v-model="inspiration.slug" />
         <EditImage label="Изображение" width="150px" v-model="inspiration.image.url" />
         <ManufacturerSelect label="Производитель" v-model="inspiration.manufacturer" />
-        <!-- <CRow class="mt-3" alignVertical="center">
+        <CRow class="mt-5" alignVertical="center">
           <CCol :class="horizontal.label">Выводить товары без шаблона?</CCol>
           <CCol :class="horizontal.input">
             <CInputCheckbox custom :checked.sync="inspiration.no_template" />
           </CCol>
-        </CRow>-->
+        </CRow>
       </CCardBody>
     </CCard>
     <template v-if="!inspiration.no_template">

@@ -40,9 +40,9 @@ export default {
       const { data: item } = await this.$api.get("productById", { id });
       return item;
     },
-    async searchItem(text) {
+    async searchItem(text, options) {
       try { 
-        const { data: items } = await this.$api.get("productsSearch", { text });
+        const { data: items } = await this.$api.get("productsSearch", { text }, {params: options});
         return items
       } catch (err) {
         this.$error(err);

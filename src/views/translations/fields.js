@@ -21,9 +21,6 @@ export default {
         "required": "",
         "email": ""
     },
-    "inputName": "",
-    "inputEmail": "",
-    "inputPassword": "",
     "email": "",
     "password": "",
     "sku": "",
