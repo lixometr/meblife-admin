@@ -90,14 +90,14 @@ export default {
       loading(true);
       const data = await this.searchItem(text, { per_page: 1000 });
       this.options = data.items;
-      this.itemsInfo = data.info;
+      this.itemsInfo = data.info || {};
       this.page = this.itemsInfo.nowPage;
       loading(false);
     },
 
     async onOpen() {
       const data = await this.searchItem("", { per_page: 1000 });
-      this.itemsInfo = data.info;
+      this.itemsInfo = data.info || {};
 
       this.options = data.items;
     },

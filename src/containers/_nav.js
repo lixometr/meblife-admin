@@ -77,6 +77,11 @@ export default [
       },
       {
         _name: 'CSidebarNavItem',
+        name: 'Виджеты',
+        to: '/widgets',
+      },
+      {
+        _name: 'CSidebarNavItem',
         name: 'CMS Группы модулей',
         to: '/module-groups',
       },

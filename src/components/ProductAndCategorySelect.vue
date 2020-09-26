@@ -11,14 +11,17 @@
     >
       <template v-slot:option="option">
         <slot name="option" v-bind="option">
-          <div class="d-center" v-if="option.type === 'Product'">{{ option.item.full_name }}</div>
+          <div class="d-center" v-if="option.type === 'Product'">
+            {{ option.item.full_name }}
+          </div>
           <div class="d-center" v-else>{{ option.item.name }}</div>
         </slot>
       </template>
       <template v-slot:selected-option="option">
         <slot name="selected-option" v-bind="option">
-
-          <div class="selected d-center" v-if="option.type === 'Product'">{{ option.item.full_name }}</div>
+          <div class="selected d-center" v-if="option.type === 'Product'">
+            {{ option.item.full_name }}
+          </div>
           <div class="selected d-center" v-else>{{ option.item.name }}</div>
         </slot>
       </template>
@@ -83,22 +86,35 @@ export default {
         type,
       };
     },
-    async searchItem(text) {
+    async searchItem(text, options) {
       try {
-        let { data: products } = await this.$api.get("productsSearch", {
-          text,
-        });
-        let { data: categories } = await this.$api.get("categoriesSearch", {
-          text,
-        });
+        let { data: productsData } = await this.$api.get(
+          "productsSearch",
+          {
+            text,
+          },
+          { params: options }
+        );
+
+        let { data: categoriesData } = await this.$api.get(
+          "categoriesSearch",
+          {
+            text,
+          },
+          { params: options }
+        );
+        let products = productsData.items || [];
+
+        let categories = categoriesData.items || [];
         products = products.map((item) => ({ type: "Product", item }));
         categories = categories.map((item) => ({ type: "Category", item }));
         const items = [...products, ...categories];
         this.savedItems = items;
-        return items;
+        return {items};
       } catch (err) {
         this.$error(err);
       }
+      return {}
     },
   },
 };

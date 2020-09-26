@@ -11,7 +11,6 @@ const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
 
 const Charts = () => import('@/views/charts/Charts')
-const Widgets = () => import('@/views/widgets/Widgets')
 
 // Views - Components
 const Cards = () => import('@/views/base/Cards')
@@ -59,42 +58,31 @@ const User = () => import('@/views/users/User')
 
 // Custom
 
-const Product = () => import("@/views/product/product")
-const Products = () => import("@/views/product/products")
 
-const Category = () => import("@/views/category/category")
-const Categories = () => import("@/views/category/categories")
 
-const Manufacturer = () => import("@/views/manufacturer/manufacturer")
-const Manufacturers = () => import("@/views/manufacturer/manufacturers")
 
-const Attribute = () => import("@/views/attribute/attribute")
-const Attributes = () => import("@/views/attribute/attributes")
 
 const Languages = () => import("@/views/language/languages")
 const Currencies = () => import("@/views/currency/currencies")
 
 const Settings = () => import("@/views/settings/settings")
 
-const Looks = () => import("@/views/looks/looks")
-const Look = () => import("@/views/looks/look")
-
-const Inspirations = () => import("@/views/inspiration/inspirations")
-const Inspiration = () => import("@/views/inspiration/inspiration")
-
-const ModuleGroups = () => import("@/views/moduleGroup/moduleGroups")
-const ModuleGroup = () => import("@/views/moduleGroup/moduleGroup")
-const ModuleEditor = () => import("@/views/moduleGroup/ModuleEditor")
 
 
-const Pages = () => import("@/views/page/pages")
-const Page = () => import("@/views/page/page")
+
 
 const Translations = () => import("@/views/translations/translations")
 
-const Labels = () => import("@/views/label/labels")
-const Label = () => import("@/views/label/label")
-
+import widget from "./widget"
+import label from "./label"
+import product from "./product"
+import manufacturer from './manufacturer'
+import category from './category'
+import attribute from './attribute'
+import looks from './looks'
+import inspiration from './inspiration'
+import moduleGroup from './moduleGroup'
+import page from './page'
 
 Vue.use(Router)
 const router = new Router({
@@ -130,157 +118,16 @@ function configRoutes() {
       component: TheContainer,
 
       children: [
-        {
-          path: "products",
-          meta: {
-            label: 'Products'
-          },
-          component: {
-            render(c) { return c('router-view') }
-          },
-          children: [
-            {
-              path: '',
-              component: Products,
-              name: "Products"
-            },
-            {
-              path: "new",
-              name: "ProductNew",
-              component: Product,
-              props: {
-                isNew: true
-              }
-            },
-            {
-              path: ":id",
-              name: "Product",
-              component: Product,
-            },
-          ]
-        },
-
-        {
-          path: "/manufacturers",
-          meta: {
-            label: 'Manufacturers'
-          },
-          component: {
-            render(c) { return c('router-view') }
-          },
-          children: [
-            {
-              path: '',
-              name: "Manufacturers",
-              component: Manufacturers,
-
-            },
-            {
-              name: "ManufacturerNew",
-              path: "new",
-              component: Manufacturer,
-              props: {
-                isNew: true
-              }
-            },
-            {
-              name: "Manufacturer",
-              path: ":id",
-              component: Manufacturer,
-            },
-          ]
-        },
-
-        {
-          path: "categories",
-          meta: {
-            label: 'Categories'
-          },
-          component: {
-            render(c) { return c('router-view') }
-          },
-          children: [
-            {
-              path: '',
-              name: "Categories",
-              component: Categories,
-            },
-            {
-              name: "CategoryNew",
-              path: "new",
-              component: Category,
-              props: {
-                isNew: true
-              }
-            },
-            {
-              name: "Category",
-              path: ":id",
-              component: Category,
-            },
-          ]
-        },
-
-        {
-          path: "attributes",
-          meta: {
-            label: 'Attributes'
-          },
-          component: {
-            render(c) { return c('router-view') }
-          },
-          children: [
-            {
-              path: '',
-              component: Attributes,
-              name: "Attributes",
-
-            },
-            {
-              name: "AttributeNew",
-              path: "new",
-              component: Attribute,
-              props: {
-                isNew: true
-              }
-            },
-            {
-              name: "Attribute",
-              path: ":id",
-              component: Attribute,
-            },
-          ]
-        },
-        {
-          path: "labels",
-          meta: {
-            label: 'Labels'
-          },
-          component: {
-            render(c) { return c('router-view') }
-          },
-          children: [
-            {
-              path: '',
-              component: Labels,
-              name: "Labels",
-
-            },
-            {
-              name: "LabelNew",
-              path: "new",
-              component: Label,
-              props: {
-                isNew: true
-              }
-            },
-            {
-              name: "Label",
-              path: ":id",
-              component: Label,
-            },
-          ]
-        },
+        widget,
+        label,
+        product,
+        manufacturer,
+        category,
+        attribute,
+        looks,
+        inspiration,
+        moduleGroup,
+        page,
         {
           name: "Languages",
           path: "languages",
@@ -296,152 +143,12 @@ function configRoutes() {
           path: "settings",
           component: Settings,
         },
-        {
-          path: "looks",
-          meta: {
-            label: 'Looks'
-          },
-          component: {
-            render(c) { return c('router-view') }
-          },
-          children: [
-            {
-              path: '',
-              component: Looks,
-              name: "Looks",
 
-            },
-            {
-              name: "LookNew",
-              path: "new",
-              component: Look,
-              props: {
-                isNew: true
-              }
-            },
-            {
-              name: "Look",
-              path: ":id",
-              component: Look,
-            },
-          ]
-        },
 
-        {
-          path: "inspirations",
-          meta: {
-            label: 'Inspirations'
-          },
-          component: {
-            render(c) { return c('router-view') }
-          },
-          children: [
-            {
-              name: "Inspirations",
-              component: Inspirations,
 
-              path: '',
-            },
-            {
-              name: "InspirationNew",
-              path: "new",
-              component: Inspiration,
-              props: {
-                isNew: true
-              }
-            },
-            {
-              name: "Inspiration",
-              path: ":id",
-              component: Inspiration,
-            },
-          ]
-        },
 
-        {
-          path: "module-groups",
-          meta: {
-            label: 'ModuleGroups'
-          },
-          component: {
-            render(c) { return c('router-view') }
-          },
-          children: [
-            {
-              path: '',
-              component: ModuleGroups,
-              name: "ModuleGroups",
-            },
-            {
-              name: "ModuleGroupNew",
-              path: "new",
-              component: ModuleGroup,
-              props: {
-                isNew: true
-              }
-            },
 
-            {
-              path: ":id",
-              meta: {
-                label: 'ModuleGroup'
-              },
-              component: {
-                render(c) { return c('router-view') }
-              },
-              children: [
-                {
-                  path: "",
-                  name: "ModuleGroup",
-                  component: ModuleGroup,
-                },
-                {
-                  name: "ModuleGroupEditorNew",
-                  path: "module/new",
-                  component: ModuleEditor,
-                  props: {
-                    isNew: true
-                  }
-                },
-                {
-                  name: "ModuleGroupEditor",
-                  path: "module/:module_id",
-                  component: ModuleEditor,
-                },
-              ]
-            },
-          ]
-        },
-        {
-          path: "pages",
-          meta: {
-            label: 'Pages'
-          },
-          component: {
-            render(c) { return c('router-view') }
-          },
-          children: [
-            {
-              name: "Pages",
-              component: Pages,
 
-              path: '',
-            },
-            {
-              name: "PageNew",
-              path: "new",
-              component: Page,
-              props: {
-                isNew: true
-              }
-            },
-            {
-              name: "Page",
-              path: ":id",
-              component: Page,
-            },
-          ]
-        },
         {
           path: "translations",
           meta: {
@@ -450,10 +157,6 @@ function configRoutes() {
           component: Translations,
 
         },
-
-
-
-
 
         {
           path: 'dashboard',
@@ -485,11 +188,7 @@ function configRoutes() {
           name: 'Charts',
           component: Charts
         },
-        {
-          path: 'widgets',
-          name: 'Widgets',
-          component: Widgets
-        },
+
         {
           path: 'users',
           meta: {
