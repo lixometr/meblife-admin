@@ -97,6 +97,7 @@
         <Label label="Встроенное Youtube видео">
           <CTextarea v-model="product.embed_video" />
         </Label>
+        <!-- <EditFiles label="Файл" v-model="product.product_files"/> -->
       </CCardBody>
     </CCard>
     <CCard>
@@ -195,6 +196,7 @@ import CategorySelect from "@/components/CategorySelect";
 import ManufacturerSelect from "@/components/ManufacturerSelect";
 import LabelSelect from "@/components/LabelSelect";
 import ImageUpload from "@/components/ImageUpload";
+import EditFiles from "@/components/EditFiles";
 import ProductImages from "@/components/Product/ProductImages";
 import ProductAttributesModal from "@/components/Product/ProductAttributesModal";
 import ModuleGroupSelect from "@/components/ModuleGroupSelect";
@@ -214,6 +216,7 @@ export default {
     LabelSelect,
     Label,
     ModuleGroupSelect,
+    EditFiles
   },
   props: {
     isNew: Boolean,

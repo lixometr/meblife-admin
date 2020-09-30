@@ -5,14 +5,31 @@
       <CCardBody>
         <div>
           Создан:
-          <b>{{moduleGroup.created_at | moment('DD.MM.YYYY hh:mm')}}</b>
+          <b>{{ moduleGroup.created_at | moment("DD.MM.YYYY hh:mm") }}</b>
         </div>
       </CCardBody>
     </CCard>
     <CCard>
       <CCardHeader>Обновить группу модулей</CCardHeader>
       <CCardBody>
-        <TInput label="Название" v-model="moduleGroup.name" />
+        <TInput class="mb-5" label="Название" v-model="moduleGroup.name" />
+        <Label class="mb-5" label="Выводить в продуктах">
+          <toggle-button
+            :width="100"
+            color="#f9b115"
+            :sync="true"
+            v-model="moduleGroup.in_products"
+          />
+        </Label>
+        <Label class="mb-5" label="Выводить в категориях">
+          <toggle-button
+            :width="100"
+            color="#f9b115"
+            :sync="true"
+            v-model="moduleGroup.in_categories"
+          />
+        </Label>
+
       </CCardBody>
     </CCard>
     <CCard>
@@ -34,9 +51,9 @@
               v-for="item in modules"
               :key="item._id"
             >
-              <CCol class="p-2" col="5">{{item.title}}</CCol>
+              <CCol class="p-2" col="5">{{ item.title }}</CCol>
               <CCol class="border-left border-right p-2" col="4">
-                <b class="text-primary">{{item.module_id}}</b>
+                <b class="text-primary">{{ item.module_id }}</b>
               </CCol>
               <CCol class="p-2" col="3">
                 <div class="d-flex justify-content-end">
@@ -46,7 +63,11 @@
                   <CButton color="warning" @click="editModule(item._id)">
                     <CIcon name="cil-pencil"></CIcon>
                   </CButton>
-                  <CButton color="danger" class="ml-2" @click="deleteModule(item._id)">
+                  <CButton
+                    color="danger"
+                    class="ml-2"
+                    @click="deleteModule(item._id)"
+                  >
                     <CIcon name="cil-trash"></CIcon>
                   </CButton>
                 </div>
@@ -60,9 +81,7 @@
         </div>
       </CCardBody>
     </CCard>
-    <BtnSave  @click="save">
-    Сохранить
-    </BtnSave>
+    <BtnSave @click="save"> Сохранить </BtnSave>
     <CButton color="danger" class="mb-2" @click="onDelete">Удалить</CButton>
   </div>
 </template>
@@ -170,7 +189,6 @@ export default {
     },
 
     addModule() {
-
       if (this.moduleId) {
         this.$router.push({
           name: "ModuleGroupEditorNew",
@@ -212,7 +230,7 @@ export default {
           title: "Удалено!",
           type: "success",
         });
-        this.$router.push({name:"ModuleGroups"});
+        this.$router.push({ name: "ModuleGroups" });
       } catch (err) {
         this.$error(err);
       }

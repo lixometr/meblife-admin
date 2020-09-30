@@ -66,12 +66,12 @@ export default {
           slug: "email",
           type: "input",
         },
-        {
-          name: "Логотип",
-          slug: "logo",
-          type: "custom",
-          component: "EditImage"
-        },
+        // {
+        //   name: "Логотип",
+        //   slug: "logo",
+        //   type: "custom",
+        //   component: "EditImage"
+        // },
       ],
       values: {},
     };

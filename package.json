@@ -18,6 +18,7 @@
     "@coreui/vue": "^3.1.2",
     "@coreui/vue-chartjs": "^1.0.5",
     "axios": "^0.20.0",
+    "lodash": "^4.17.20",
     "lodash.merge": "^4.6.2",
     "moment": "^2.27.0",
     "quill-image-resize-module": "^3.0.0",
