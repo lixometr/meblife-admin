@@ -1,12 +1,18 @@
 <template>
   <div class="module-editor" v-if="!$store.getters.isLoading">
-    <h4 class="mb-3">Модуль {{moduleNumber}}</h4>
+    <h4 class="mb-3">Модуль {{ moduleNumber }}</h4>
     <CCard>
       <CCardBody>
-        <CImg block :style="{maxWidth: '100%'}" :src="moduleScreen" />
+        <CImg block :style="{ maxWidth: '100%' }" :src="moduleScreen" />
       </CCardBody>
     </CCard>
-    <CCard v-if="shouldShow('main_image') || shouldShow('module_items') || shouldShow('show_type')">
+    <CCard
+      v-if="
+        shouldShow('main_image') ||
+        shouldShow('module_items') ||
+        shouldShow('show_type')
+      "
+    >
       <CCardHeader>Редактировать модуль</CCardHeader>
       <CCardBody>
         <EditImage
@@ -19,24 +25,35 @@
           v-model="appModule.module_items"
           v-if="shouldShow('module_items')"
         />
-        <Label class="mt-4" label="Тип отображения" v-if="shouldShow('show_type')">
+        <Label
+          class="mt-4"
+          label="Тип отображения"
+          v-if="shouldShow('show_type')"
+        >
           <v-select
             :multiple="false"
             v-model="appModule.show_type"
             :options="showTypeOptions"
-            :reduce="item => item.value"
+            :reduce="(item) => item.value"
             label="label"
           ></v-select>
+        </Label>
+        <Label class="mt-4" label="Цвет текста" v-if="shouldShow('color')">
+          <AppColorPicker v-model="appModule.color" />
+        </Label>
+        <Label class="mt-4" label="Цвет фона" v-if="shouldShow('bg_color')">
+          <AppColorPicker v-model="appModule.bg_color" />
         </Label>
       </CCardBody>
     </CCard>
     <CCard
       v-if="
-          shouldShow('title') 
-          || shouldShow('sub_title') 
-          || shouldShow('description') 
-          || shouldShow('more_btn') 
-          || shouldShow('more_btn_url')"
+        shouldShow('title') ||
+        shouldShow('sub_title') ||
+        shouldShow('description') ||
+        shouldShow('more_btn') ||
+        shouldShow('more_btn_url')
+      "
     >
       <CCardHeader>Тексты</CCardHeader>
       <CCardBody>
@@ -85,9 +102,7 @@
       </CCardBody>
     </CCard>
 
-    <BtnSave  @click="save">
-    Сохранить
-    </BtnSave>
+    <BtnSave @click="save"> Сохранить </BtnSave>
     <CButton color="danger" class="mb-2" @click="onDelete">Удалить</CButton>
   </div>
 </template>
@@ -97,24 +112,29 @@ import EditImage from "@/components/EditImage";
 import TTextArea from "@/components/TTextArea";
 import ProductAndCategorySelect from "@/components/ProductAndCategorySelect";
 import ModuleImageEditor from "@/components/Modules/ModuleImageEditor";
+import AppColorPicker from "@/components/AppColorPicker";
 const whatShow = {
-  1: ["texts", "main_image", "module_items", "show_type"],
-  3: ["texts", "main_image", "module_items", "show_type"],
+  1: ["texts", "main_image", "module_items", "show_type", ],
+  2: ["texts", "main_image", "module_items", "show_type", ],
+  3: ["texts", "main_image", "module_items", "show_type", ],
   8: ["texts", "main_image", "show_type"],
   16: ["title", "sub_title", "description", "module_images"],
   19: ["module_images"],
   14: ["title", "sub_title", "module_items"],
   15: ["title", "description"],
-
   21: ["title", "description"],
   22: ["module_images"],
   23: ["title", "sub_title", "module_images"],
-  26: [ 'module_images',],
+  26: ["module_images"],
   28: ["title", "module_images"],
   35: ["title"],
 };
 const showTypes = {
   1: [
+    { label: "Нормальный", value: "" },
+    { label: "Перевернутый", value: "reverse" },
+  ],
+  2: [
     { label: "Нормальный", value: "" },
     { label: "Перевернутый", value: "reverse" },
   ],
@@ -140,7 +160,8 @@ export default {
     TTextArea,
     ProductAndCategorySelect,
     ModuleImageEditor,
-  },
+  AppColorPicker
+},
   data() {
     return {
       moduleGroup: {},
@@ -164,7 +185,7 @@ export default {
   },
   computed: {
     showTypeOptions() {
-      return showTypes[this.moduleNumber]
+      return showTypes[this.moduleNumber];
     },
     showOpts() {
       return whatShow[this.moduleNumber] || [];

@@ -23,6 +23,7 @@
     "moment": "^2.27.0",
     "quill-image-resize-module": "^3.0.0",
     "vue": "~2.6.12",
+    "vue-color": "^2.7.1",
     "vue-cookie": "^1.1.4",
     "vue-froala-wysiwyg": "^3.2.1-1",
     "vue-js-modal": "^2.0.0-rc.6",
