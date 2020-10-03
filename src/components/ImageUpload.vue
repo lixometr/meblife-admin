@@ -82,7 +82,7 @@ export default {
     inputFilter(newFile, oldFile, prevent) {
       if (newFile && !oldFile) {
         // Filter non-image file
-        if (!/\.(jpeg|jpe|jpg|gif|png|webp)$/i.test(newFile.name)) {
+        if (!/\.(jpeg|jpe|jpg|gif|svg|png|webp)$/i.test(newFile.name)) {
           return prevent();
         }
       }
