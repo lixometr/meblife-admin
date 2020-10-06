@@ -12,7 +12,7 @@ const getters = {
     return state.loading
   },
   horizontal() {
-    return  { input: "col-lg-8", label: "col-lg-4 text-right pr-4" }
+    return  { input: "col-8", label: "col-4 text-right pr-4" }
   }
 }
 const mutations = {
