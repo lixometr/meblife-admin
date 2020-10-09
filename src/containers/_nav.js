@@ -46,12 +46,16 @@ export default [
             to: "/attributes"
           },
           {
-            name: "Производители",
+            name: "Коллекции",
             to: "/manufacturers"
           },
           {
             name: "Категории",
             to: "/categories"
+          },
+          {
+            name: "Модели",
+            to: "/models"
           },
           {
             name: "Флаги",
