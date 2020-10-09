@@ -54,6 +54,11 @@ export default {
           label: "Верхняя панель",
           routeName: "WidgetTopBar",
         },
+        {
+          slug: "header_menu",
+          label: "Меню в шапке",
+          routeName: "WidgetHeaderMenu",
+        },
         // {
         //   slug: "footer",
         //   label: "Футер",

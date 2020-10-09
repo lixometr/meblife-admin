@@ -14,7 +14,22 @@
           label="Ссылка в кнопке"
           v-model="item.texts.more_btn_url"
         />
-        <EditImage label="Картинка на фоне" v-model="item.values.bg_image.url" />
+        <EditImage
+          label="Картинка на фоне"
+          v-model="item.values.bg_image.url"
+        />
+      </CCardBody>
+    </CCard>
+    <CCard>
+      <CCardHeader>Слайдер</CCardHeader>
+      <CCardBody>
+        <EditComponent
+          v="slider"
+          c="EditMultiplyer"
+          :schema="sliderSchema"
+          :items="sliderItems"
+          :changeValue.sync="item.values"
+        />
       </CCardBody>
     </CCard>
     <CCard>
@@ -105,6 +120,51 @@ export default {
     EditImage,
     ModuleGroupSelect,
   },
+  computed: {
+    sliderSchema() {
+      return {
+        slider: [
+          {
+            title: [],
+            sub_title: [],
+            image: {},
+            more_btn: [],
+            more_btn_url: []
+
+          }
+        ]
+      }
+    },
+    sliderItems() {
+      return [
+        {
+          c: 'TInput',
+          v: 'title',
+          label: "Заголовок"
+        },
+        {
+          c: 'TInput',
+          v: 'sub_title',
+          label: "Под заголовок"
+        },
+        {
+          c: 'TInput',
+          v: 'more_btn',
+          label: "Текст в кнопке"
+        },
+        {
+          c: 'TInput',
+          v: 'more_btn_url',
+          label: "Ссылка в кнопке"
+        },
+        {
+          c: 'EditImage',
+          v: 'image',
+          label: "Изображение"
+        },
+      ]
+    }
+  },  
   async created() {
     this.$loading.start();
     await this.fetchItem();

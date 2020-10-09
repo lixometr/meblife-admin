@@ -3,6 +3,7 @@ const Widget = () => import("@/views/widget/widget")
 const WidgetMainPage = () => import("@/views/widget/mainPage")
 const WidgetTopBar = () => import("@/views/widget/topBar")
 const WidgetFooter = () => import("@/views/widget/footer")
+const WidgetHeaderMenu = () => import("@/views/widget/headerMenu")
 export default {
     path: "widgets",
     meta: {
@@ -27,6 +28,17 @@ export default {
                     name: "WidgetMainPage",
                     path: "",
                     component: WidgetMainPage,
+                },
+            ]
+        },
+        {
+            path: "header_menu",
+            component: Widget,
+            children: [
+                {
+                    name: "WidgetHeaderMenu",
+                    path: "",
+                    component: WidgetHeaderMenu,
                 },
             ]
         },

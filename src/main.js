@@ -54,11 +54,15 @@ import TInput from "@/components/TInput";
 import BtnAdd from "@/components/BtnAdd";
 import BtnSave from "@/components/BtnSave";
 import AppPagination from "@/components/AppPagination";
+import EditComponent from "@/components/Edit/EditComponent";
+import EditMultiplyer from "@/components/Edit/EditMultiplyer";
 Vue.component('Label', Label)
 Vue.component('TInput', TInput)
 Vue.component('BtnAdd', BtnAdd)
 Vue.component('BtnSave', BtnSave)
 Vue.component('AppPagination', AppPagination)
+Vue.component('EditComponent', EditComponent)
+Vue.component('EditMultiplyer', EditMultiplyer)
 const init = async () => {
   await store.dispatch('init')
   new Vue({
