@@ -4,7 +4,7 @@
       <CCard>
         <CCardHeader>Редактировать изображение модуля</CCardHeader>
         <CCardBody>
-          <EditImage label="Изображение" v-model="thisItem.image.url" v-if="shouldShow('image')"/>
+          <EditImage label="Изображение" v-model="thisItem.image" v-if="shouldShow('image')"/>
           <TInput class="mb-4" label="Заголовок" v-model="thisItem.title" v-if="shouldShow('title')"/>
           <TInput class="mb-4" label="Подзаголовок" v-model="thisItem.sub_title" v-if="shouldShow('sub_title')"/>
           <TTextArea class="mb-4" label="Описание" v-model="thisItem.description" v-if="shouldShow('description')"/>
@@ -33,7 +33,8 @@ const whatShow = {
   22: ['title', 'sub_title', 'image'],
   23: ['title'],
   26: ['title', 'sub_title',  'more_btn', 'more_btn_url', 'image'],
-  28: ['title', 'more_btn_url']
+  28: ['title', 'more_btn_url'],
+  33: ['title', 'more_btn', 'more_btn_url', 'image']
 }
 export default {
   props: {

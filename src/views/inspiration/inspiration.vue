@@ -14,7 +14,7 @@
       <CCardBody>
         <TInput class="mb-5" label="Название" v-model="inspiration.name" />
         <TInput class="mb-5" label="Slug" v-model="inspiration.slug" />
-        <EditImage label="Изображение" width="150px" v-model="inspiration.image.url" />
+        <EditImage label="Изображение" width="150px" v-model="inspiration.image" />
         <ManufacturerSelect label="Производитель" v-model="inspiration.manufacturer" />
         <CRow class="mt-5" alignVertical="center">
           <CCol :class="horizontal.label">Выводить товары без шаблона?</CCol>
@@ -48,13 +48,13 @@
           <EditImage
             label="Изображение слева"
             width="150px"
-            v-model="inspiration.first_block_image_left.url"
+            v-model="inspiration.first_block_image_left"
           />
 
           <EditImage
             width="150px"
             label="Изображение справа"
-            v-model="inspiration.first_block_image_right.url"
+            v-model="inspiration.first_block_image_right"
           />
 
           <ProductSelect label="Товары" v-model="inspiration.products1" />
@@ -77,13 +77,13 @@
           <EditImage
             label="Изображение слева"
             width="150px"
-            v-model="inspiration.second_block_image_left.url"
+            v-model="inspiration.second_block_image_left"
           />
 
           <EditImage
             width="150px"
             label="Изображение справа"
-            v-model="inspiration.second_block_image_right.url"
+            v-model="inspiration.second_block_image_right"
           />
 
           <ProductSelect label="Товары" v-model="inspiration.products2" />
@@ -95,7 +95,7 @@
           <EditImage
             label="Изображение снизу"
             width="150px"
-            v-model="inspiration.separator_image.url"
+            v-model="inspiration.separator_image"
           />
           <ProductSelect label="Товары" v-model="inspiration.products3" />
         </CCardBody>

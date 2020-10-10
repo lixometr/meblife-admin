@@ -9,7 +9,7 @@ import ImageUpload from "@/components/ImageUpload";
 export default {
   props: {
     label: String,
-    value: [Object, String]
+    value: [Object],
   },
   components: {
     ImageUpload,
@@ -21,30 +21,25 @@ export default {
     horizontal() {
       return this.$store.getters.horizontal;
     },
-    
+
     listeners() {
       return {
         ...this.$listeners,
-        input: this.onInput
-      }
+        input: this.onInput,
+      };
     },
     attrs() {
       return {
         ...this.$attrs,
-        value: typeof this.value === 'string' ? this.value : this.value.url
-      }
-    }
+        value: this.value && this.value.url,
+      };
+    },
   },
   methods: {
     onInput(val) {
-      if(typeof this.value === 'string') {
-        this.$emit('input', val)
-      } else {
-        this.$emit('input', {url: val})
-
-      }
-    }
-  }
+      this.$emit("input", { url: val });
+    },
+  },
 };
 </script>
 

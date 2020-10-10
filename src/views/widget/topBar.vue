@@ -16,7 +16,7 @@
         />
         <EditImage
           label="Иконка"
-          v-model="item.values.items[idx].icon.url"
+          v-model="item.values.items[idx].icon"
         />
       </CCardBody>
     </CCard>

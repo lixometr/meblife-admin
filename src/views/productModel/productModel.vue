@@ -5,51 +5,39 @@
       <CCardBody>
         <div>
           Создан:
-          <b>{{page.created_at | moment('DD.MM.YYYY hh:mm')}}</b>
+          <b>{{ productModel.created_at | moment("DD.MM.YYYY hh:mm") }}</b>
         </div>
       </CCardBody>
     </CCard>
     <CCard>
-      <CCardHeader>Редактировать страницу</CCardHeader>
+      <!-- <CCardHeader></CCardHeader> -->
       <CCardBody>
-        <TInput class="mb-5" label="Название" v-model="page.name" />
-        <TInput class="mb-5" label="Slug" v-model="page.slug" />
-        <EditImage class="mb-5" label="Изображение на фоне" v-model="page.header_image" />
-        <ModuleGroupSelect label="Группа модулей" v-model="page.module_groups"/>
+        <TInput class="mb-3" label="Название" v-model="productModel.name" />
+        <TInput label="Slug" v-model="productModel.slug" />
       </CCardBody>
     </CCard>
-    <BtnSave  @click="save">
-      Сохранить
-    </BtnSave>
+    <BtnSave @click="save">Сохранить</BtnSave>
     <CButton color="danger" class="mb-2" @click="onDelete">Удалить</CButton>
   </div>
 </template>
 
 <script>
 import TInput from "@/components/TInput";
-import TTextArea from "@/components/TTextArea";
 import NInput from "@/components/NInput";
-import ImageUpload from "@/components/ImageUpload";
-import EditImage from "@/components/EditImage";
-import ModuleGroupSelect from "@/components/ModuleGroupSelect";
 export default {
   components: {
     TInput,
-    TTextArea,
     NInput,
-    EditImage,
-    ImageUpload,
-    ModuleGroupSelect
   },
   props: {
     isNew: Boolean,
   },
   data() {
     return {
-      page: {
+      productModel: {
         name: [],
         slug: [],
-        header_image: {}
+    
       },
     };
   },
@@ -62,14 +50,14 @@ export default {
     this.$loading.start();
     try {
       if (!this.isNew) {
-        const { data } = await this.$api.get("pageByIdAdmin", {
+        const { data } = await this.$api.get("productModelByIdAdmin", {
           id: this.$route.params.id,
         });
-        this.page = data;
+        this.productModel = data;
       } else {
-        const { data } = await this.$api.post("pages");
-        this.$router.push({ name: "Page", params: { id: data._id } });
-        this.page = data;
+        const { data } = await this.$api.post("productModels");
+        this.$router.push({ name: "ProductModel", params: { id: data._id } });
+        this.productModel = data;
       }
     } catch (err) {
       this.$error(err);
@@ -81,9 +69,9 @@ export default {
     async save() {
       try {
         const { data: response } = await this.$api.put(
-          "pageById",
-          { id: this.page._id },
-          this.page
+          "productModelById",
+          { id: this.productModel._id },
+          this.productModel
         );
         this.$notify({
           group: "main",
@@ -96,15 +84,15 @@ export default {
     },
     async onDelete() {
       try {
-        const { data } = await this.$api.delete("pageById", {
-          id: this.page._id,
+        const { data } = await this.$api.delete("productModelById", {
+          id: this.productModel._id,
         });
         this.$notify({
           group: "main",
           title: "Удалено!",
           type: "success",
         });
-        this.$router.push({ name: "Pages" });
+        this.$router.push({ name: "productModels" });
       } catch (err) {
         this.$error(err);
       }

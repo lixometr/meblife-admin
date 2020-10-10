@@ -83,6 +83,7 @@ import looks from './looks'
 import inspiration from './inspiration'
 import moduleGroup from './moduleGroup'
 import page from './page'
+import productModel from './productModel'
 
 Vue.use(Router)
 const router = new Router({
@@ -128,6 +129,7 @@ function configRoutes() {
         inspiration,
         moduleGroup,
         page,
+        productModel,
         {
           name: "Languages",
           path: "languages",

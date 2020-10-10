@@ -16,7 +16,7 @@
         />
         <EditImage
           label="Картинка на фоне"
-          v-model="item.values.bg_image.url"
+          v-model="item.values.bg_image"
         />
       </CCardBody>
     </CCard>

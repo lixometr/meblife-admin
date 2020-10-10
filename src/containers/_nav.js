@@ -55,7 +55,7 @@ export default [
           },
           {
             name: "Модели",
-            to: "/models"
+            to: "/product-models"
           },
           {
             name: "Флаги",

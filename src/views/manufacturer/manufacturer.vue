@@ -20,7 +20,7 @@
           label="Изображение на фоне"
           class="mb-5"
           width="150px"
-          v-model="manufacturer.header_image.url"
+          v-model="manufacturer.header_image"
         />
         <ModuleGroupSelect
           label="Группа модулей"

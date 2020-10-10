@@ -17,7 +17,7 @@
       <CCardBody>
         <EditImage
           label="Изображение"
-          v-model="appModule.main_image.url"
+          v-model="appModule.main_image"
           v-if="shouldShow('main_image')"
         />
         <ProductAndCategorySelect
@@ -127,6 +127,7 @@ const whatShow = {
   23: ["title", "sub_title", "module_images"],
   26: ["module_images"],
   28: ["title", "module_images"],
+  33: ["title", "sub_title", "module_images"],
   35: ["title"],
 };
 const showTypes = {
