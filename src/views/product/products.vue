@@ -3,7 +3,7 @@
     <CCard>
       <CCardBody>
         <div class="mb-3">
-          <h6 class="mb-2">Производитель</h6>
+          <h6 class="mb-2">Коллекция</h6>
           <ManufacturerSelect
             inputClass="bg-white"
             class="mb-2"
@@ -136,7 +136,7 @@ export default {
         },
         {
           key: "manufacturer",
-          label: "Производитель",
+          label: "Коллекция",
         },
         {
           key: "created_at",

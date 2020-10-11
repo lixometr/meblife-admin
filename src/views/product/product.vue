@@ -33,7 +33,7 @@
         <ManufacturerSelect
           required
           class="mb-3"
-          label="Производитель"
+          label="Коллекция"
           v-model="product.manufacturer"
         />
         <ProductModelSelect
