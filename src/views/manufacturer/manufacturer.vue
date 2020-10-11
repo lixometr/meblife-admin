@@ -15,7 +15,7 @@
         <TInput class="mb-5" label="Название" v-model="manufacturer.name" />
         <TInput class="mb-5" label="Slug" v-model="manufacturer.slug" />
 
-        <EditImage label="Изображение" class="mb-5" width="150px" v-model="manufacturer.image.url" />
+        <EditImage label="Изображение" class="mb-5" width="150px" v-model="manufacturer.image" />
         <EditImage
           label="Изображение на фоне"
           class="mb-5"
