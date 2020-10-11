@@ -118,6 +118,7 @@ const whatShow = {
   2: ["texts", "main_image", "module_items", "show_type", ],
   3: ["texts", "main_image", "module_items", "show_type", ],
   8: ["texts", "main_image", "show_type"],
+  9: ["title", "module_items", "more_btn", 'more_btn_url'],
   16: ["title", "sub_title", "description", "module_images"],
   19: ["module_images"],
   14: ["title", "sub_title", "module_items"],

@@ -36,6 +36,12 @@
           label="Производитель"
           v-model="product.manufacturer"
         />
+        <ProductModelSelect
+          required
+          class="mb-3"
+          label="Модель"
+          v-model="product.model"
+        />
         <ModuleGroupSelect
           class="mb-3"
           label="CMS Module Group Top"
@@ -201,6 +207,7 @@ import ProductImages from "@/components/Product/ProductImages";
 import ProductAttributesModal from "@/components/Product/ProductAttributesModal";
 import ModuleGroupSelect from "@/components/ModuleGroupSelect";
 import Label from "@/components/Label";
+import ProductModelSelect from "@/components/ProductModelSelect"
 
 export default {
   name: "Product",
@@ -216,7 +223,8 @@ export default {
     LabelSelect,
     Label,
     ModuleGroupSelect,
-    EditFiles
+    EditFiles,
+    ProductModelSelect
   },
   props: {
     isNew: Boolean,
