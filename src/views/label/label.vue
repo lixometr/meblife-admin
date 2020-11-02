@@ -56,7 +56,7 @@ export default {
         this.label = data;
       } else {
         const { data } = await this.$api.post("labels");
-        this.$router.push({ name: "label", params: { id: data._id } });
+        this.$router.push({ name: "Label", params: { id: data._id } });
         this.label = data;
       }
     } catch (err) {
@@ -92,7 +92,7 @@ export default {
           title: "Удалено!",
           type: "success",
         });
-        this.$router.push({ name: "labels" });
+        this.$router.push({ name: "Labels" });
       } catch (err) {
         this.$error(err);
       }
