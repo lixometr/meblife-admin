@@ -16,13 +16,11 @@ export default {
         "21": "",
         "22": ""
     },
-    "loginSuccess": "",
     "formErrors": {
         "required": "",
         "email": ""
     },
-    "email": "",
-    "password": "",
+ 
     "sku": "",
     "productName": "",
     "delivery": [
@@ -51,7 +49,6 @@ export default {
     "signup": "",
     "back": "",
     "toCart": "",
-    "itemsInCart": "",
     "itemAddedToCart": "",
     "priceForOne": "",
     "deliveryText": "",
@@ -74,10 +71,7 @@ export default {
     "similarProducts": "",
     "visitProductPage": "",
     "showDetails": "",
-    "favourite": "",
-    "accountText": "",
-    "prev": "",
-    "next": "",
+  
     "signUpPage": {
         "pageTitle": "",
         "pageSubTitle": "",
